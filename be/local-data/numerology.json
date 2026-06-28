@@ -1,0 +1,14 @@
+[
+  { "id": 1, "name": "Sứ Mệnh 1", "keywords": ["Độc lập", "Lãnh đạo", "Sáng tạo", "Tiên phong"] },
+  { "id": 2, "name": "Sứ Mệnh 2", "keywords": ["Lắng nghe", "Ngoại giao", "Đồng cảm", "Hòa bình"] },
+  { "id": 3, "name": "Sứ Mệnh 3", "keywords": ["Sáng tạo", "Giao tiếp", "Vui vẻ", "Nghệ thuật"] },
+  { "id": 4, "name": "Sứ Mệnh 4", "keywords": ["Thực tế", "Cấu trúc", "Kỷ luật", "Vững chắc"] },
+  { "id": 5, "name": "Sứ Mệnh 5", "keywords": ["Tự do", "Phiêu lưu", "Thay đổi", "Linh hoạt"] },
+  { "id": 6, "name": "Sứ Mệnh 6", "keywords": ["Trách nhiệm", "Chăm sóc", "Tình yêu", "Gia đình"] },
+  { "id": 7, "name": "Sứ Mệnh 7", "keywords": ["Phân tích", "Tâm linh", "Trí tuệ", "Nghiên cứu"] },
+  { "id": 8, "name": "Sứ Mệnh 8", "keywords": ["Quyền lực", "Tài chính", "Thành công", "Điều hành"] },
+  { "id": 9, "name": "Sứ Mệnh 9", "keywords": ["Nhân đạo", "Kết thúc", "Khoan dung", "Toàn cầu"] },
+  { "id": 11, "name": "Sứ Mệnh 11", "keywords": ["Trực giác", "Tâm linh", "Lý tưởng", "Cảm hứng"] },
+  { "id": 22, "name": "Sứ Mệnh 22", "keywords": ["Kiến tạo", "Tầm nhìn", "Vĩ đại", "Thực tiễn"] },
+  { "id": 33, "name": "Sứ Mệnh 33", "keywords": ["Chữa lành", "Ban phước", "Yêu thương", "Vô tư"] }
+]
