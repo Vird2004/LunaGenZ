@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const serverless = require('serverless-http');
 
 const { calculateNumerology } = require('./src/layer1-facts/numerologyEngine');
 const { drawCards } = require('./src/layer1-facts/lenormandEngine');
@@ -57,6 +58,10 @@ app.post('/api/lenormand', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`LunaGenZ Backend MVP running on port ${PORT}`);
-});
+if (process.env.IS_OFFLINE || process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`LunaGenZ Backend MVP running on port ${PORT}`);
+  });
+} else {
+  module.exports.handler = serverless(app);
+}
