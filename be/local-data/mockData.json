@@ -1,0 +1,35 @@
+{
+  "numerology": [
+    {
+      "id": 1,
+      "title": "Life Path 1",
+      "keywords": [
+        "Independent",
+        "Leader",
+        "Innovative"
+      ],
+      "public_summary": "The Pioneer",
+      "private_details": {
+        "description": "Life Path 1 indicates a highly independent, action-oriented individual who is born to lead."
+      }
+    }
+  ],
+  "lenormand": [
+    {
+      "card_id": 28,
+      "english_name": "Man",
+      "vietnamese_name": "Người Đàn Ông",
+      "vibe": "Masculine energy, action, logical",
+      "keywords": [
+        "Male",
+        "Action",
+        "Logic"
+      ],
+      "meanings": {
+        "general": "A male figure, or masculine energy in a situation.",
+        "love": "A significant male in a romantic context.",
+        "career": "Action-oriented approach to career."
+      }
+    }
+  ]
+}
