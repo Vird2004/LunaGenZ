@@ -1,38 +1,505 @@
 [
-  { "id": 1, "name": "Rider", "type": "Neutral", "keywords": ["Tin tức", "Năng lượng", "Tốc độ"] },
-  { "id": 2, "name": "Clover", "type": "Positive", "keywords": ["May mắn", "Niềm vui", "Cơ hội"] },
-  { "id": 3, "name": "Ship", "type": "Neutral", "keywords": ["Hành trình", "Khoảng cách", "Mong muốn"] },
-  { "id": 4, "name": "House", "type": "Positive", "keywords": ["Gia đình", "Ổn định", "Sự bảo vệ"] },
-  { "id": 5, "name": "Tree", "type": "Neutral", "keywords": ["Sức khỏe", "Gốc rễ", "Phát triển"] },
-  { "id": 6, "name": "Clouds", "type": "Negative", "keywords": ["Nhầm lẫn", "Rắc rối", "Mơ hồ"] },
-  { "id": 7, "name": "Snake", "type": "Negative", "keywords": ["Phản bội", "Gian dối", "Quyến rũ"] },
-  { "id": 8, "name": "Coffin", "type": "Negative", "keywords": ["Kết thúc", "Đau buồn", "Biến đổi"] },
-  { "id": 9, "name": "Bouquet", "type": "Positive", "keywords": ["Món quà", "Sắc đẹp", "Mời gọi"] },
-  { "id": 10, "name": "Scythe", "type": "Negative", "keywords": ["Nguy hiểm", "Cắt đứt", "Bất ngờ"] },
-  { "id": 11, "name": "Whip", "type": "Negative", "keywords": ["Tranh cãi", "Trừng phạt", "Lặp lại"] },
-  { "id": 12, "name": "Birds", "type": "Neutral", "keywords": ["Trò chuyện", "Lo lắng", "Giao tiếp"] },
-  { "id": 13, "name": "Child", "type": "Positive", "keywords": ["Khởi đầu", "Ngây thơ", "Trẻ em"] },
-  { "id": 14, "name": "Fox", "type": "Negative", "keywords": ["Xảo quyệt", "Công việc", "Thận trọng"] },
-  { "id": 15, "name": "Bear", "type": "Neutral", "keywords": ["Sức mạnh", "Bảo vệ", "Tài chính"] },
-  { "id": 16, "name": "Stars", "type": "Positive", "keywords": ["Hy vọng", "Cảm hứng", "Tâm linh"] },
-  { "id": 17, "name": "Stork", "type": "Neutral", "keywords": ["Thay đổi", "Di chuyển", "Giai đoạn mới"] },
-  { "id": 18, "name": "Dog", "type": "Positive", "keywords": ["Trung thành", "Tình bạn", "Tin cậy"] },
-  { "id": 19, "name": "Tower", "type": "Neutral", "keywords": ["Cô lập", "Cơ quan", "Chính thức"] },
-  { "id": 20, "name": "Garden", "type": "Positive", "keywords": ["Cộng đồng", "Gặp gỡ", "Xã hội"] },
-  { "id": 21, "name": "Mountain", "type": "Negative", "keywords": ["Chướng ngại", "Trì hoãn", "Thử thách"] },
-  { "id": 22, "name": "Crossroads", "type": "Neutral", "keywords": ["Lựa chọn", "Quyết định", "Phân vân"] },
-  { "id": 23, "name": "Mice", "type": "Negative", "keywords": ["Mất mát", "Căng thẳng", "Bào mòn"] },
-  { "id": 24, "name": "Heart", "type": "Positive", "keywords": ["Tình yêu", "Lãng mạn", "Đam mê"] },
-  { "id": 25, "name": "Ring", "type": "Positive", "keywords": ["Cam kết", "Hợp đồng", "Kết nối"] },
-  { "id": 26, "name": "Book", "type": "Neutral", "keywords": ["Bí mật", "Học tập", "Tri thức"] },
-  { "id": 27, "name": "Letter", "type": "Neutral", "keywords": ["Tin nhắn", "Văn bản", "Tài liệu"] },
-  { "id": 28, "name": "Man", "type": "Neutral", "keywords": ["Nam giới", "Người hỏi", "Đối tác"] },
-  { "id": 29, "name": "Woman", "type": "Neutral", "keywords": ["Nữ giới", "Người hỏi", "Đối tác"] },
-  { "id": 30, "name": "Lily", "type": "Positive", "keywords": ["Hòa bình", "Sự trưởng thành", "Tinh khiết"] },
-  { "id": 31, "name": "Sun", "type": "Positive", "keywords": ["Thành công", "Năng lượng", "Lạc quan"] },
-  { "id": 32, "name": "Moon", "type": "Positive", "keywords": ["Cảm xúc", "Danh tiếng", "Lãng mạn"] },
-  { "id": 33, "name": "Key", "type": "Positive", "keywords": ["Giải pháp", "Quan trọng", "Thành công"] },
-  { "id": 34, "name": "Fish", "type": "Positive", "keywords": ["Tiền bạc", "Sự phong phú", "Kinh doanh"] },
-  { "id": 35, "name": "Anchor", "type": "Positive", "keywords": ["Ổn định", "Đích đến", "An toàn"] },
-  { "id": 36, "name": "Cross", "type": "Negative", "keywords": ["Gánh nặng", "Đau khổ", "Đức tin"] }
+  {
+    "card_id": 1,
+    "name": { "en": "Rider", "vi": "Kỵ Sĩ" },
+    "vibe": "positive",
+    "keywords": ["Tin tức", "Di chuyển", "Khởi đầu", "Thông báo"],
+    "meanings": {
+      "general": "Một tin tức, sự kiện hoặc người mới sắp xuất hiện trong đời bạn.",
+      "love": "Tin nhắn, lời tỏ tình hoặc một người mới bước vào cuộc sống tình cảm.",
+      "career": "Cơ hội công việc mới hoặc tin tức quan trọng liên quan sự nghiệp.",
+      "lost_items": "Đồ vật đang trên đường di chuyển, hoặc gần cửa ra vào.",
+      "yes_no": "Có"
+    }
+  },
+
+  {
+    "card_id": 2,
+    "name": { "en": "Clover", "vi": "Cỏ Ba Lá" },
+    "vibe": "positive",
+    "keywords": ["May mắn", "Cơ hội nhỏ", "Niềm vui ngắn hạn"],
+    "meanings": {
+      "general": "Một điều may mắn nhỏ, đến bất ngờ nhưng không kéo dài lâu.",
+      "love": "Niềm vui bất chợt, một khoảnh khắc ngọt ngào ngắn ngủi.",
+      "career": "Cơ hội nhỏ xuất hiện, cần nắm bắt nhanh vì không kéo dài.",
+      "lost_items": "Ở gần khu vực ngoài trời hoặc nơi vui chơi.",
+      "yes_no": "Có"
+    }
+  },
+
+  {
+    "card_id": 3,
+    "name": { "en": "Ship", "vi": "Con Tàu" },
+    "vibe": "neutral",
+    "keywords": ["Du lịch", "Xa xôi", "Thay đổi lớn"],
+    "meanings": {
+      "general": "Một sự thay đổi lớn, có thể liên quan đến di chuyển hoặc khoảng cách địa lý.",
+      "love": "Tình yêu xa, hoặc mối quan hệ đang bước vào giai đoạn chuyển đổi.",
+      "career": "Công việc liên quan đến nước ngoài, xuất khẩu, hoặc thay đổi môi trường làm việc.",
+      "lost_items": "Ở rất xa, khó tìm lại trong thời gian ngắn.",
+      "yes_no": "Có thể"
+    }
+  },
+
+  {
+    "card_id": 4,
+    "name": { "en": "House", "vi": "Ngôi Nhà" },
+    "vibe": "positive",
+    "keywords": ["Gia đình", "Ổn định", "An toàn", "Nền tảng"],
+    "meanings": {
+      "general": "Sự ổn định, an toàn và nền tảng vững chắc trong cuộc sống.",
+      "love": "Mối quan hệ nghiêm túc, hướng đến gia đình, sự gắn bó lâu dài.",
+      "career": "Công việc ổn định, môi trường quen thuộc, hoặc liên quan bất động sản.",
+      "lost_items": "Đồ vật ở trong nhà, thường tại nơi quen thuộc.",
+      "yes_no": "Có"
+    }
+  },
+
+  {
+    "card_id": 5,
+    "name": { "en": "Tree", "vi": "Cây Cổ Thụ" },
+    "vibe": "neutral",
+    "keywords": ["Sức khỏe", "Sự phát triển", "Bền vững", "Chậm rãi"],
+    "meanings": {
+      "general": "Sự phát triển bền vững theo thời gian, liên quan đến sức khỏe và gốc rễ.",
+      "love": "Mối quan hệ cần thời gian để vun đắp, phát triển từ từ và chắc chắn.",
+      "career": "Sự nghiệp phát triển ổn định, cần kiên nhẫn thay vì nóng vội.",
+      "lost_items": "Gần cây cối, khu vườn hoặc không gian tự nhiên.",
+      "yes_no": "Có thể"
+    }
+  },
+
+  {
+    "card_id": 6,
+    "name": { "en": "Clouds", "vi": "Mây" },
+    "vibe": "negative",
+    "keywords": ["Mơ hồ", "Lo lắng", "Bất ổn", "Chưa rõ ràng"],
+    "meanings": {
+      "general": "Sự mơ hồ, thiếu rõ ràng, tâm trạng bất an hoặc tình huống chưa sáng tỏ.",
+      "love": "Hiểu lầm, cảm xúc mông lung chưa được giải quyết.",
+      "career": "Tình hình công việc chưa rõ ràng, cần thêm thời gian để sáng tỏ.",
+      "lost_items": "Khó xác định vị trí, cần tìm kiếm kỹ hơn.",
+      "yes_no": "Không rõ"
+    }
+  },
+
+  {
+    "card_id": 7,
+    "name": { "en": "Snake", "vi": "Con Rắn" },
+    "vibe": "negative",
+    "keywords": ["Cám dỗ", "Phức tạp", "Lừa dối", "Đường vòng"],
+    "meanings": {
+      "general": "Tình huống phức tạp, có thể liên quan đến sự lừa dối hoặc một người không đáng tin.",
+      "love": "Người thứ ba, hoặc mối quan hệ có yếu tố không trung thực.",
+      "career": "Đồng nghiệp hoặc đối tác cần đề phòng, tình huống chính trị công sở.",
+      "lost_items": "Bị giấu đi hoặc thất lạc theo cách phức tạp.",
+      "yes_no": "Không"
+    }
+  },
+
+  {
+    "card_id": 8,
+    "name": { "en": "Coffin", "vi": "Quan Tài" },
+    "vibe": "negative",
+    "keywords": ["Kết thúc", "Chuyển đổi", "Buông bỏ"],
+    "meanings": {
+      "general": "Sự kết thúc của một giai đoạn, mở đường cho khởi đầu mới.",
+      "love": "Một mối quan hệ hoặc giai đoạn tình cảm cần khép lại.",
+      "career": "Dự án hoặc công việc hiện tại đi đến hồi kết.",
+      "lost_items": "Khó tìm lại, có thể đã bị bỏ đi hoặc không còn giá trị dùng.",
+      "yes_no": "Không"
+    }
+  },
+
+  {
+    "card_id": 9,
+    "name": { "en": "Bouquet", "vi": "Bó Hoa" },
+    "vibe": "positive",
+    "keywords": ["Món quà", "Vẻ đẹp", "Lời mời", "Niềm vui"],
+    "meanings": {
+      "general": "Một món quà, lời mời hoặc điều tốt đẹp bất ngờ đến với bạn.",
+      "love": "Sự lãng mạn, lời tỏ tình hoặc cử chỉ yêu thương đẹp đẽ.",
+      "career": "Lời khen ngợi, sự công nhận hoặc cơ hội hấp dẫn.",
+      "lost_items": "Ở nơi trang trọng hoặc gần hoa/quà tặng.",
+      "yes_no": "Có"
+    }
+  },
+
+  {
+    "card_id": 10,
+    "name": { "en": "Scythe", "vi": "Lưỡi Hái" },
+    "vibe": "negative",
+    "keywords": ["Quyết định nhanh", "Cắt đứt", "Bất ngờ", "Nguy hiểm"],
+    "meanings": {
+      "general": "Một quyết định hoặc sự việc xảy ra đột ngột, cần hành động dứt khoát.",
+      "love": "Chia tay đột ngột hoặc một quyết định tình cảm cần đưa ra ngay.",
+      "career": "Cắt giảm, sa thải, hoặc cần dứt khoát trong công việc.",
+      "lost_items": "Bị mất do một sự việc đột ngột, khó lường trước.",
+      "yes_no": "Không"
+    }
+  },
+
+  {
+    "card_id": 11,
+    "name": { "en": "Whip", "vi": "Roi Da" },
+    "vibe": "negative",
+    "keywords": ["Tranh cãi", "Lặp lại", "Căng thẳng", "Xung đột"],
+    "meanings": {
+      "general": "Xung đột, tranh cãi hoặc một tình huống lặp đi lặp lại gây căng thẳng.",
+      "love": "Cãi vã trong mối quan hệ, mâu thuẫn chưa được giải quyết dứt điểm.",
+      "career": "Áp lực công việc, tranh luận với đồng nghiệp hoặc cấp trên.",
+      "lost_items": "Có thể liên quan đến một cuộc tranh cãi trước khi bị thất lạc.",
+      "yes_no": "Không"
+    }
+  },
+
+  {
+    "card_id": 12,
+    "name": { "en": "Birds", "vi": "Đôi Chim" },
+    "vibe": "neutral",
+    "keywords": ["Giao tiếp", "Cặp đôi", "Lo lắng nhỏ", "Trò chuyện"],
+    "meanings": {
+      "general": "Cuộc trò chuyện, trao đổi thông tin, hoặc lo lắng nhỏ nhặt trong cuộc sống.",
+      "love": "Những cuộc trò chuyện, tin nhắn qua lại giữa hai người.",
+      "career": "Họp hành, trao đổi công việc, hoặc tin đồn nơi công sở.",
+      "lost_items": "Gần nơi ồn ào, đông người hoặc nơi thường trò chuyện.",
+      "yes_no": "Có thể"
+    }
+  },
+
+  {
+    "card_id": 13,
+    "name": { "en": "Child", "vi": "Đứa Trẻ" },
+    "vibe": "positive",
+    "keywords": ["Khởi đầu mới", "Ngây thơ", "Nhỏ bé", "Tiềm năng"],
+    "meanings": {
+      "general": "Khởi đầu mới, điều gì đó còn non trẻ nhưng đầy tiềm năng phát triển.",
+      "love": "Mối quan hệ mới chớm nở, hoặc cảm xúc trong sáng, hồn nhiên.",
+      "career": "Dự án mới bắt đầu, ý tưởng còn ở giai đoạn sơ khai.",
+      "lost_items": "Đồ vật nhỏ, có thể liên quan đến trẻ em.",
+      "yes_no": "Có"
+    }
+  },
+
+  {
+    "card_id": 14,
+    "name": { "en": "Fox", "vi": "Con Cáo" },
+    "vibe": "negative",
+    "keywords": ["Cẩn trọng", "Khôn khéo", "Nghi ngờ", "Công việc"],
+    "meanings": {
+      "general": "Cần sự khôn khéo và cẩn trọng, có thể có yếu tố không hoàn toàn trung thực.",
+      "love": "Cần cẩn thận vì đối phương có thể không thành thật hoàn toàn.",
+      "career": "Cạnh tranh nơi công sở, cần khôn khéo trong ứng xử.",
+      "lost_items": "Có thể do ai đó cố tình giấu đi.",
+      "yes_no": "Không rõ"
+    }
+  },
+
+  {
+    "card_id": 15,
+    "name": { "en": "Bear", "vi": "Gấu" },
+    "vibe": "neutral",
+    "keywords": ["Bảo vệ", "Quyền lực", "Ghen tị", "Sức mạnh"],
+    "meanings": {
+      "general": "Sức mạnh, sự bảo vệ, hoặc một người có quyền lực/ảnh hưởng lớn xung quanh bạn.",
+      "love": "Sự ghen tuông hoặc một người bảo vệ mạnh mẽ trong mối quan hệ.",
+      "career": "Cấp trên có quyền lực, hoặc bản thân bạn cần thể hiện sự mạnh mẽ.",
+      "lost_items": "Được ai đó có ảnh hưởng cất giữ hoặc bảo quản.",
+      "yes_no": "Có thể"
+    }
+  },
+
+  {
+    "card_id": 16,
+    "name": { "en": "Stars", "vi": "Những Vì Sao" },
+    "vibe": "positive",
+    "keywords": ["Hy vọng", "Ước mơ", "Định hướng", "Cảm hứng"],
+    "meanings": {
+      "general": "Hy vọng, ước mơ và nguồn cảm hứng dẫn đường cho bạn.",
+      "love": "Tình yêu lý tưởng, cảm giác được truyền cảm hứng bởi đối phương.",
+      "career": "Mục tiêu lớn, định hướng rõ ràng cho tương lai sự nghiệp.",
+      "lost_items": "Khó tìm nhưng sẽ xuất hiện đúng lúc, đúng thời điểm.",
+      "yes_no": "Có"
+    }
+  },
+
+  {
+    "card_id": 17,
+    "name": { "en": "Stork", "vi": "Con Cò" },
+    "vibe": "positive",
+    "keywords": ["Thay đổi tích cực", "Chuyển giao", "Cải thiện"],
+    "meanings": {
+      "general": "Một sự thay đổi tích cực đang đến, cải thiện tình hình hiện tại.",
+      "love": "Mối quan hệ bước sang giai đoạn mới, tốt đẹp hơn.",
+      "career": "Thăng tiến, chuyển việc hoặc cải thiện điều kiện làm việc.",
+      "lost_items": "Sẽ xuất hiện lại sau một sự thay đổi hoàn cảnh.",
+      "yes_no": "Có"
+    }
+  },
+
+  {
+    "card_id": 18,
+    "name": { "en": "Dog", "vi": "Con Chó" },
+    "vibe": "positive",
+    "keywords": ["Trung thành", "Bạn bè", "Tin cậy", "Hỗ trợ"],
+    "meanings": {
+      "general": "Một người bạn trung thành, đáng tin cậy ở bên cạnh hỗ trợ bạn.",
+      "love": "Sự chung thủy, gắn bó bền chặt trong mối quan hệ.",
+      "career": "Đồng nghiệp hoặc đối tác đáng tin cậy, hỗ trợ tốt.",
+      "lost_items": "Ở gần một người bạn thân thiết, đáng tin.",
+      "yes_no": "Có"
+    }
+  },
+
+  {
+    "card_id": 19,
+    "name": { "en": "Tower", "vi": "Tòa Tháp" },
+    "vibe": "neutral",
+    "keywords": ["Cô lập", "Cơ quan", "Khoảng cách", "Địa vị"],
+    "meanings": {
+      "general": "Sự cô lập, khoảng cách, hoặc liên quan đến cơ quan/tổ chức lớn.",
+      "love": "Khoảng cách cảm xúc, cần thêm sự kết nối để xóa bỏ rào cản.",
+      "career": "Cơ quan nhà nước, tổ chức lớn, hoặc vị trí có địa vị cao.",
+      "lost_items": "Ở nơi cao, hoặc trong một tòa nhà/cơ quan.",
+      "yes_no": "Không rõ"
+    }
+  },
+
+  {
+    "card_id": 20,
+    "name": { "en": "Garden", "vi": "Khu Vườn" },
+    "vibe": "positive",
+    "keywords": ["Cộng đồng", "Sự kiện xã hội", "Kết nối công khai"],
+    "meanings": {
+      "general": "Không gian xã hội, sự kiện đông người hoặc mạng lưới quan hệ rộng.",
+      "love": "Mối quan hệ được nhiều người biết đến, công khai trước cộng đồng.",
+      "career": "Networking, sự kiện công việc, hoặc môi trường làm việc đông người.",
+      "lost_items": "Ở nơi công cộng, đông người qua lại.",
+      "yes_no": "Có thể"
+    }
+  },
+
+  {
+    "card_id": 21,
+    "name": { "en": "Mountain", "vi": "Ngọn Núi" },
+    "vibe": "negative",
+    "keywords": ["Trở ngại", "Thử thách", "Trì hoãn", "Rào cản"],
+    "meanings": {
+      "general": "Một trở ngại lớn, thử thách cần vượt qua trước khi tiến tiếp.",
+      "love": "Rào cản trong mối quan hệ, có thể từ hoàn cảnh hoặc người thứ ba.",
+      "career": "Khó khăn, cạnh tranh gay gắt hoặc trì hoãn trong công việc.",
+      "lost_items": "Khó tìm lại, bị chắn bởi vật cản lớn.",
+      "yes_no": "Không"
+    }
+  },
+
+  {
+    "card_id": 22,
+    "name": { "en": "Crossroads", "vi": "Ngã Ba Đường" },
+    "vibe": "neutral",
+    "keywords": ["Lựa chọn", "Quyết định", "Nhiều hướng đi"],
+    "meanings": {
+      "general": "Bạn đang đứng trước một lựa chọn quan trọng, cần cân nhắc kỹ hướng đi.",
+      "love": "Cần quyết định giữa hai lựa chọn tình cảm hoặc hướng đi cho mối quan hệ.",
+      "career": "Cơ hội rẽ nhánh trong sự nghiệp, cần chọn lựa cẩn thận.",
+      "lost_items": "Ở khu vực có nhiều ngã rẽ, khó xác định chính xác.",
+      "yes_no": "Không rõ"
+    }
+  },
+
+  {
+    "card_id": 23,
+    "name": { "en": "Mice", "vi": "Chuột" },
+    "vibe": "negative",
+    "keywords": ["Hao hụt", "Lo âu", "Mất mát nhỏ", "Căng thẳng"],
+    "meanings": {
+      "general": "Sự hao hụt dần dần, lo âu nhỏ tích tụ theo thời gian.",
+      "love": "Cảm xúc dần phai nhạt hoặc lo lắng âm ỉ trong mối quan hệ.",
+      "career": "Hao tổn nguồn lực, cần chú ý tránh thất thoát.",
+      "lost_items": "Có thể đã bị hư hỏng hoặc thất lạc dần theo thời gian.",
+      "yes_no": "Không"
+    }
+  },
+
+  {
+    "card_id": 24,
+    "name": { "en": "Heart", "vi": "Trái Tim" },
+    "vibe": "positive",
+    "keywords": ["Tình yêu", "Cảm xúc chân thành", "Đam mê"],
+    "meanings": {
+      "general": "Cảm xúc chân thành, tình yêu thương hoặc đam mê mạnh mẽ.",
+      "love": "Tình yêu đích thực, cảm xúc sâu đậm và chân thành.",
+      "career": "Đam mê với công việc, làm việc bằng cả trái tim.",
+      "lost_items": "Liên quan đến vật có giá trị tình cảm đặc biệt.",
+      "yes_no": "Có"
+    }
+  },
+
+  {
+    "card_id": 25,
+    "name": { "en": "Ring", "vi": "Chiếc Nhẫn" },
+    "vibe": "positive",
+    "keywords": ["Cam kết", "Hợp đồng", "Gắn kết", "Chu kỳ"],
+    "meanings": {
+      "general": "Sự cam kết, gắn bó lâu dài hoặc một thỏa thuận/hợp đồng quan trọng.",
+      "love": "Lời hứa hẹn, đính hôn hoặc cam kết nghiêm túc trong tình yêu.",
+      "career": "Ký kết hợp đồng, thỏa thuận hợp tác lâu dài.",
+      "lost_items": "Vật tròn, có thể là trang sức, dễ tìm lại nếu kiên trì.",
+      "yes_no": "Có"
+    }
+  },
+
+  {
+    "card_id": 26,
+    "name": { "en": "Book", "vi": "Cuốn Sách" },
+    "vibe": "neutral",
+    "keywords": ["Bí mật", "Kiến thức", "Điều chưa biết"],
+    "meanings": {
+      "general": "Một bí mật hoặc kiến thức chưa được khám phá hết.",
+      "love": "Điều gì đó đối phương chưa chia sẻ, cần thời gian để hiểu rõ hơn.",
+      "career": "Cần học hỏi thêm kiến thức, hoặc thông tin công việc chưa được tiết lộ hết.",
+      "lost_items": "Được cất giấu kỹ, khó tìm nếu không có manh mối.",
+      "yes_no": "Không rõ"
+    }
+  },
+
+  {
+    "card_id": 27,
+    "name": { "en": "Letter", "vi": "Lá Thư" },
+    "vibe": "neutral",
+    "keywords": ["Tin nhắn", "Văn bản", "Thông tin"],
+    "meanings": {
+      "general": "Một tin nhắn, văn bản hoặc thông tin quan trọng sắp đến.",
+      "love": "Tin nhắn tình cảm, lời nhắn nhủ qua chữ viết.",
+      "career": "Email, hợp đồng, hoặc văn bản công việc quan trọng.",
+      "lost_items": "Liên quan đến giấy tờ, tài liệu bị thất lạc.",
+      "yes_no": "Có thể"
+    }
+  },
+
+  {
+    "card_id": 28,
+    "name": { "en": "Man", "vi": "Người Đàn Ông" },
+    "vibe": "neutral",
+    "keywords": ["Nam giới", "Lý trí", "Chủ động", "Người hỏi (nếu là nam)"],
+    "meanings": {
+      "general": "Đại diện cho một người đàn ông quan trọng trong sự việc, hoặc yếu tố lý trí trong tình huống.",
+      "love": "Đối tượng nam giới trong mối quan hệ, hoặc năng lượng chủ động, lý trí.",
+      "career": "Sếp, đồng nghiệp hoặc đối tác nam quan trọng trong công việc.",
+      "lost_items": "Đồ vật ở gần chỗ của một người đàn ông.",
+      "yes_no": "Có"
+    }
+  },
+
+  {
+    "card_id": 29,
+    "name": { "en": "Woman", "vi": "Người Phụ Nữ" },
+    "vibe": "neutral",
+    "keywords": ["Nữ giới", "Trực giác", "Cảm xúc", "Người hỏi (nếu là nữ)"],
+    "meanings": {
+      "general": "Đại diện cho một người phụ nữ quan trọng trong sự việc, hoặc yếu tố cảm xúc, trực giác.",
+      "love": "Đối tượng nữ giới trong mối quan hệ, hoặc năng lượng cảm xúc, tinh tế.",
+      "career": "Sếp, đồng nghiệp hoặc đối tác nữ quan trọng trong công việc.",
+      "lost_items": "Đồ vật ở gần chỗ của một người phụ nữ.",
+      "yes_no": "Có"
+    }
+  },
+
+  {
+    "card_id": 30,
+    "name": { "en": "Lily", "vi": "Hoa Loa Kèn" },
+    "vibe": "positive",
+    "keywords": ["Bình yên", "Trưởng thành", "Tình cảm sâu sắc", "Gia đình"],
+    "meanings": {
+      "general": "Sự bình yên, trưởng thành và những giá trị bền vững theo thời gian.",
+      "love": "Tình cảm sâu sắc, chín chắn, đôi khi liên quan đến người lớn tuổi hơn.",
+      "career": "Kinh nghiệm, sự chín chắn trong công việc, uy tín được xây dựng lâu dài.",
+      "lost_items": "Ở nơi yên tĩnh, quen thuộc trong nhà.",
+      "yes_no": "Có"
+    }
+  },
+
+  {
+    "card_id": 31,
+    "name": { "en": "Sun", "vi": "Mặt Trời" },
+    "vibe": "positive",
+    "keywords": ["Thành công", "Năng lượng tích cực", "Rõ ràng", "Hạnh phúc"],
+    "meanings": {
+      "general": "Thành công, niềm vui và năng lượng tích cực tràn đầy.",
+      "love": "Hạnh phúc, tình cảm rực rỡ và tràn đầy sức sống.",
+      "career": "Thành công rõ ràng, được công nhận trong công việc.",
+      "lost_items": "Sẽ được tìm thấy nhanh chóng, ở nơi sáng sủa.",
+      "yes_no": "Có"
+    }
+  },
+
+  {
+    "card_id": 32,
+    "name": { "en": "Moon", "vi": "Mặt Trăng" },
+    "vibe": "positive",
+    "keywords": ["Cảm xúc", "Danh tiếng", "Trực giác", "Công nhận"],
+    "meanings": {
+      "general": "Cảm xúc sâu lắng, sự công nhận hoặc danh tiếng đang lên.",
+      "love": "Cảm xúc lãng mạn, sâu đậm, đôi khi có phần mơ mộng.",
+      "career": "Được công nhận, danh tiếng tăng lên nhờ nỗ lực trong công việc.",
+      "lost_items": "Xuất hiện lại vào ban đêm hoặc ở nơi thiếu sáng.",
+      "yes_no": "Có thể"
+    }
+  },
+
+  {
+    "card_id": 33,
+    "name": { "en": "Key", "vi": "Chìa Khóa" },
+    "vibe": "positive",
+    "keywords": ["Giải pháp", "Chắc chắn", "Mở khóa vấn đề", "Định mệnh"],
+    "meanings": {
+      "general": "Giải pháp chắc chắn, câu trả lời rõ ràng cho vấn đề đang gặp phải.",
+      "love": "Chìa khóa mở ra một giai đoạn mới, chắc chắn và rõ ràng trong tình cảm.",
+      "career": "Cơ hội hoặc giải pháp chắc chắn giúp công việc tiến triển tốt.",
+      "lost_items": "Sẽ tìm thấy chắc chắn nếu tìm đúng hướng.",
+      "yes_no": "Có"
+    }
+  },
+
+  {
+    "card_id": 34,
+    "name": { "en": "Fish", "vi": "Con Cá" },
+    "vibe": "positive",
+    "keywords": ["Tài chính", "Dòng chảy", "Thịnh vượng", "Kinh doanh"],
+    "meanings": {
+      "general": "Tài chính, sự thịnh vượng và dòng chảy tiền bạc, cơ hội kinh doanh.",
+      "love": "Mối quan hệ mang lại sự sung túc, hoặc liên quan đến tài chính chung.",
+      "career": "Cơ hội kinh doanh, thu nhập tăng lên, dòng tiền thuận lợi.",
+      "lost_items": "Liên quan đến tiền bạc hoặc vật có giá trị tài chính.",
+      "yes_no": "Có"
+    }
+  },
+
+  {
+    "card_id": 35,
+    "name": { "en": "Anchor", "vi": "Mỏ Neo" },
+    "vibe": "positive",
+    "keywords": ["Ổn định", "Kiên định", "Công việc lâu dài"],
+    "meanings": {
+      "general": "Sự ổn định, kiên định và cam kết lâu dài trong một lĩnh vực.",
+      "love": "Mối quan hệ vững chắc, gắn bó lâu dài, đáng tin cậy.",
+      "career": "Công việc ổn định, sự nghiệp bền vững theo thời gian.",
+      "lost_items": "Ở một nơi cố định, quen thuộc, không di chuyển.",
+      "yes_no": "Có"
+    }
+  },
+
+  {
+    "card_id": 36,
+    "name": { "en": "Cross", "vi": "Thánh Giá" },
+    "vibe": "negative",
+    "keywords": ["Thử thách", "Gánh nặng", "Số phận", "Bài học"],
+    "meanings": {
+      "general": "Một thử thách hoặc gánh nặng mang tính bài học, thường liên quan đến số phận.",
+      "love": "Khó khăn cần vượt qua trong mối quan hệ, mang tính thử thách sâu sắc.",
+      "career": "Áp lực, gánh nặng trách nhiệm lớn trong công việc.",
+      "lost_items": "Khó tìm lại, gắn với một tình huống khó khăn.",
+      "yes_no": "Không"
+    }
+  }
 ]

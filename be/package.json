@@ -10,13 +10,20 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.1079.0",
+    "@aws-sdk/client-dynamodb": "^3.1079.0",
+    "@aws-sdk/lib-dynamodb": "^3.1079.0",
+    "@aws-sdk/s3-request-presigner": "^3.1080.0",
     "cors": "^2.8.6",
     "express": "^5.2.1",
-    "serverless-http": "^4.0.0"
+    "pdfkit": "^0.19.1",
+    "serverless-dotenv-plugin": "^6.0.0",
+    "serverless-http": "^4.0.0",
+    "uuid": "^14.0.1"
   },
   "devDependencies": {
-    "serverless": "^4.38.1",
+    "serverless": "^3.38.0",
     "serverless-localstack": "^1.4.0",
-    "serverless-offline": "^14.7.4"
+    "serverless-offline": "^13.3.3"
   }
 }

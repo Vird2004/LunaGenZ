@@ -1,23 +1,77 @@
 service: lunagenz-backend
+useDotenv: true
 
 provider:
   name: aws
   runtime: nodejs20.x
+  httpApi:
+    cors: true
+  environment:
+    USERS_TABLE: lunagenz-users
+    PDF_BUCKET_NAME: ${env:PDF_BUCKET_NAME}
+    SES_FROM_EMAIL: ${env:SES_FROM_EMAIL}
+    SES_TO_EMAIL: ${env:SES_TO_EMAIL}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+          Resource:
+            - "Fn::GetAtt": [UsersTable, Arn]
+        - Effect: Allow
+          Action:
+            - s3:PutObject
+            - s3:PutObjectAcl
+            - s3:GetObject
+          Resource: "arn:aws:s3:::${env:PDF_BUCKET_NAME}/*"
+        - Effect: Allow
+          Action:
+            - ses:SendEmail
+          Resource: "*"
 
 functions:
-  api:
-    handler: server.handler
+  numerology:
+    handler: handlers/numerologyHandler.handler
     events:
       - httpApi:
-          path: '/{proxy+}'
-          method: '*'
+          path: '/api/numerology'
+          method: 'post'
+  lenormand:
+    handler: handlers/lenormandHandler.handler
+    events:
+      - httpApi:
+          path: '/api/lenormand'
+          method: 'post'
 
 plugins:
+  - serverless-dotenv-plugin
   - serverless-localstack
+  - serverless-offline
 
 custom:
+  serverless-offline:
+    httpPort: 8080
   localstack:
     stages:
       - local
     host: http://localhost
     edgePort: 4566
+
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.USERS_TABLE}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+    PdfBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${env:PDF_BUCKET_NAME}

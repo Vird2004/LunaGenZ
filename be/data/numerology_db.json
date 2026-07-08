@@ -1,0 +1,54 @@
+{
+  "lifePath": {
+    "1": "Người mang con số chủ đạo 1 thường là những nhà lãnh đạo bẩm sinh, đầy độc lập và tiên phong. Bạn có tư duy tự chủ rất cao và không thích bị người khác chỉ đạo. Bài học lớn nhất của số 1 là học cách kiểm soát cái tôi và lắng nghe người khác.",
+    "2": "Con số chủ đạo 2 mang lại sự tinh tế, trực giác nhạy bén và khả năng thấu cảm sâu sắc. Bạn sinh ra để làm sứ giả của hòa bình, rất giỏi trong việc kết nối và hòa giải. Tuy nhiên, bạn cần học cách tránh bị phụ thuộc cảm xúc vào người khác.",
+    "3": "Người mang số chủ đạo 3 có điểm mạnh nằm ở tư duy, trí não nhanh nhạy và óc hài hước. Bạn truyền cảm hứng cho mọi người bằng ngôn từ và sự tích cực. Bạn cần học cách tập trung, tránh phân tán năng lượng vào quá nhiều việc cùng lúc.",
+    "4": "Con số chủ đạo 4 đại diện cho tính thực tế, nguyên tắc và khả năng tổ chức tuyệt vời. Bạn là người đáng tin cậy, thích mọi thứ rõ ràng và logic. Bài học của số 4 là tránh trở nên quá cứng nhắc hay bảo thủ.",
+    "5": "Số chủ đạo 5 là những tâm hồn yêu tự do, thích sự thay đổi, luôn tìm kiếm những trải nghiệm mới. Bạn có khả năng thích nghi xuất sắc nhưng đôi khi lại thiếu sự kiên nhẫn và kỷ luật để đi đến tận cùng vấn đề.",
+    "6": "Sự sáng tạo, tình yêu thương và trách nhiệm với gia đình là đặc trưng của người mang số chủ đạo 6. Bạn luôn muốn chăm sóc người khác, nhưng hãy cẩn thận đừng để lòng tốt của mình bị kìm hãm thành sự áp đặt hay lo lắng thái quá.",
+    "7": "Con số chủ đạo 7 là một trong những con số rất đặc biệt, đại diện cho những bài học trải nghiệm để trưởng thành. Bạn có nhu cầu học hỏi rất lớn và thường tự mình chiêm nghiệm chân lý thông qua những vấp ngã cá nhân.",
+    "8": "Người mang số 8 sở hữu trí tuệ độc lập mạnh mẽ, khả năng lãnh đạo kinh doanh ưu việt. Bạn nhạy bén với các con số và tài chính. Bài học của số 8 là học cách cân bằng giữa đời sống vật chất và tình cảm.",
+    "9": "Số 9 đại diện cho hoài bão, lý tưởng, sự nhân văn và tinh thần cống hiến cho xã hội. Bạn có một trái tim bao dung, nhưng đôi khi dễ bị vỡ mộng vì kỳ vọng quá cao ở người khác.",
+    "10": "Người có số chủ đạo 10 rất linh hoạt, có khả năng thích nghi phi thường trong mọi hoàn cảnh. Bạn được trang bị sự tự tin và dũng khí để khởi xướng các dự án lớn.",
+    "11": "Là một con số Master, người mang số 11 sở hữu một tiềm năng nhận thức tâm linh đặc biệt. Trực giác của bạn cực kỳ chính xác. Bài học của số 11 là biến trực giác đó thành những hành động thiết thực thay vì chỉ mơ mộng.",
+    "22": "Số 22/4 là 'Con số Vua', mang lại tiềm năng vô hạn để kiến tạo những công trình thiết thực lớn lao. Bạn kết hợp được tầm nhìn của số 11 và tính kỷ luật của số 4."
+  },
+  "arrows": {
+    "159": "Mũi tên Quyết tâm (1-5-9): Bạn rất kiên trì và luôn theo đuổi mục tiêu đến cùng. Khó có rào cản nào làm bạn chùn bước khi đã quyết định.",
+    "empty_159": "Trống mũi tên 1-5-9 (Mũi tên Trì hoãn): Đôi lúc bạn hay trì hoãn, thiếu sự quyết liệt để kết thúc những gì đã bắt đầu. Cần rèn luyện tính kỷ luật.",
+    "357": "Mũi tên Nhạy bén Tâm linh (3-5-7): Bạn sở hữu trực giác mạnh mẽ. Mũi tên này còn lợi hại ở chỗ nó kết nối 3 con số đại diện cho 3 trục: Thể chất - Tinh thần - Trí não. Bạn hay thích tự trải nghiệm và rút ra bài học.",
+    "empty_357": "Trống mũi tên 3-5-7 (Mũi tên Hoài nghi): Những người này có máu tìm tòi. Họ sẽ bắt đầu nghiền ngẫm, tìm tòi trên cái nền căn cơ những điều chuẩn mà họ đang theo đuổi, và thường bỏ qua cơ hội đào sâu khía cạnh vi tế hơn. Nếu không ý thức tự điều chỉnh, sẽ trở nên hay lo lắng thái quá.",
+    "258": "Mũi tên Cân bằng cảm xúc (2-5-8): Bạn có đời sống nội tâm phong phú và khả năng kiểm soát cảm xúc tuyệt vời. Bạn dễ dàng đồng cảm với người khác.",
+    "empty_258": "Trống mũi tên 2-5-8 (Mũi tên Nhạy cảm): Bạn rất dễ bị tổn thương, dễ xúc động và đôi khi tự khép kín bản thân để bảo vệ mình.",
+    "369": "Mũi tên Trí tuệ (3-6-9): Bạn có đầu óc sáng láng, trí nhớ tốt và tư duy phân tích nhạy bén. Rất phù hợp với các công việc học thuật.",
+    "empty_369": "Trống mũi tên 3-6-9 (Mũi tên Trí nhớ ngắn hạn): Bạn thường gặp khó khăn trong việc ghi nhớ chi tiết, cần có sổ tay hoặc công cụ hỗ trợ ghi nhớ.",
+    "456": "Mũi tên Ý chí (4-5-6): Tháo vát, nhanh nhẹn. Tự do thể hiện và kết nối. Sáng tạo, mạnh về ý chí. Thích làm việc tử tế, thích được ngợi khen khi làm tốt.",
+    "empty_456": "Trống mũi tên 4-5-6 (Mũi tên Uất giận): Thường cảm thấy bất mãn khi kỳ vọng không được như ý. Cần học cách bao dung và bớt mong cầu hơn.",
+    "789": "Mũi tên Hoạt động (7-8-9): Năng động, thích di chuyển và luôn tìm kiếm các trải nghiệm thực tế thay vì lý thuyết suông.",
+    "empty_789": "Trống mũi tên 7-8-9 (Mũi tên Thụ động): Trống đồng nghĩa với việc một người hoàn toàn thụ động. Những người này thường sống thiếu lý tưởng, mục đích, hoài bão. Thiếu đi trách nhiệm và không thích trải nghiệm để phát triển."
+  },
+  "pinnacles": {
+    "1": "Đỉnh cao mang năng lượng số 1 đòi hỏi bạn phải đứng lên làm chủ, tự lập và khẳng định bản sắc cá nhân. Đây là giai đoạn bạn thể hiện sức mạnh cái tôi mạnh mẽ nhất.",
+    "2": "Sự xuất hiện của con số 2 ở bất kì đỉnh cao nào trong kim tự tháp đều chỉ ra rằng ở thời điểm đó, năng lượng tâm linh của bạn sẽ bắt đầu trỗi dậy. Dù trước đây bạn quen sống theo cách thực tế, nhưng khi chạm đến đỉnh cao này bạn sẽ đủ duyên kết nối với các giá trị sâu sắc hơn. Cần củng cố giá trị tinh thần thay vì chỉ chăm chăm vào vật chất.",
+    "3": "Đỉnh cao số 3 báo hiệu một giai đoạn bạn cần phát triển và mở rộng về mặt tư duy, học hỏi và truyền đạt. Khả năng sáng tạo và kết nối xã hội được phát huy tối đa.",
+    "4": "Đỉnh cao số 4 là lúc bạn gặt hái những thành tựu vật chất nếu đã nỗ lực làm việc chăm chỉ, tổ chức và kỷ luật. Giai đoạn này đòi hỏi sự kiên nhẫn xây nền tảng vững chắc.",
+    "5": "Đỉnh cao số 5 là biểu tượng cho sự thay đổi về nhận thức. Đây là thời điểm của sự kiện nào đó đủ lớn khiến bạn chuyển tầng nhận thức lên vị trí cao hơn. Về phương diện tài chính cũng sẽ có những biến chuyển tích cực bất ngờ.",
+    "6": "Đỉnh cao số 6 tập trung vào tình cảm gia đình, sự yêu thương và các trách nhiệm với người thân xung quanh. Bạn sẽ cảm nhận rõ rệt giá trị của tổ ấm.",
+    "7": "Theo nhân số học, con số 7 đại diện cho những bài học cuộc đời mà con người phải trải giá để lĩnh hội. Những người có con số 7 trên đỉnh cao kim tự tháp thường sẽ phải trải qua một mất mát nào đó. Sự đau khổ này là bài kiểm tra để bạn trưởng thành, rèn luyện và thay đổi nhận thức.",
+    "8": "Đây là giai đoạn của sự thành công về tài chính, quyền lực và sự độc lập mạnh mẽ. Nếu bạn biết nắm bắt cơ hội và đã gieo nhân tốt, quả ngọt tài chính sẽ đến rất dồi dào.",
+    "9": "Trong nhân số học, số 9 đại diện cho sự nhân văn, trách nhiệm, lý tưởng và ước mơ. Bạn có con số 9 ở đỉnh cao thì đây chính là lời nhắc nhở để bạn sống vì cộng đồng. Ở thời điểm này, bạn không thể chỉ bo bo giữ lợi ích cá nhân, hãy dùng thời gian làm việc tử tế, từ thiện nhiều hơn.",
+    "10": "Số 10 (hoặc 1) trên đỉnh cao báo hiệu khả năng mở ra những chặng đường hoàn toàn mới mẻ, đòi hỏi sự dũng cảm và tự lực vươn lên.",
+    "11": "Đỉnh cao số 11 mang năng lượng tâm linh cực kỳ mạnh mẽ, yêu cầu sự trưởng thành cao độ về mặt nhận thức, vượt lên những giá trị vật chất thông thường."
+  },
+  "personalYear": {
+    "1": "Năm thứ nhất - Năm của những khởi đầu mới: Đánh dấu sự bắt đầu của một chu kỳ 9 năm. Đây là thời điểm gieo hạt, khởi tạo các dự án mới, rũ bỏ thói quen cũ. Hãy dũng cảm bước ra khỏi vùng an toàn.",
+    "2": "Năm thứ hai - Năm của sự kết nối và nhẫn nại: Sau một năm khởi đầu mạnh mẽ, năm nay nhịp độ sẽ chậm lại để bạn phát triển trực giác, chăm sóc các mối quan hệ và duy trì sự hòa hợp.",
+    "3": "Năm thứ ba - Năm của sự phát triển trí tuệ: Vị trí của năm thứ ba nằm ở giữa đỉnh điểm sự thay đổi và năm thoái trào đầu tiên. Dưới sự tác động của sóng rung, con người sẽ phát huy cao độ ở khả năng tư duy, lý luận và sự nhạy bén quan sát. Hãy chọn một khóa học mới hoặc đi du lịch mở mang kiến thức.",
+    "4": "Năm thứ tư - Năm của sự củng cố: Đòi hỏi bạn làm việc chăm chỉ, tổ chức lại cuộc sống và xây dựng nền tảng vững chắc (sức khỏe, tài chính, công việc).",
+    "5": "Năm thứ năm - Năm của sự thay đổi tự do: Đây là giai đoạn bứt phá, mong muốn giải phóng khỏi những bó buộc. Nhiều cơ hội đi lại, giao tiếp và những bước ngoặt bất ngờ sẽ đến.",
+    "6": "Năm thứ sáu - Năm của gia đình và sáng tạo: Năng lượng tập trung vào tổ ấm, người thân và các trách nhiệm cá nhân. Sự sáng tạo nghệ thuật cũng được phát huy rực rỡ.",
+    "7": "Năm thứ bảy - Năm của sự đúc kết nội tâm: Thời gian tuyệt vời để hướng vào bên trong, học hỏi, phân tích và phát triển tâm linh. Bạn có thể muốn có không gian riêng tĩnh lặng nhiều hơn.",
+    "8": "Năm thứ tám - Năm của gặt hái thành tựu: Đây là lúc hái quả ngọt tài chính, sự nghiệp thăng hoa sau quá trình gieo hạt và nỗ lực của 7 năm trước. Năng lượng độc lập và quyền lực vươn cao.",
+    "9": "Năm thứ chín - Năm kết thúc chu kỳ: Thời điểm dọn dẹp, buông bỏ những thứ không còn phù hợp (thói quen, mối quan hệ, công việc) để dọn đường cho chu kỳ mới. Đừng vội khởi tạo cái mới trong năm nay."
+  }
+}

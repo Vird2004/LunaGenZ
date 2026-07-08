@@ -1,14 +1,339 @@
 [
-  { "id": 1, "name": "Sứ Mệnh 1", "keywords": ["Độc lập", "Lãnh đạo", "Sáng tạo", "Tiên phong"] },
-  { "id": 2, "name": "Sứ Mệnh 2", "keywords": ["Lắng nghe", "Ngoại giao", "Đồng cảm", "Hòa bình"] },
-  { "id": 3, "name": "Sứ Mệnh 3", "keywords": ["Sáng tạo", "Giao tiếp", "Vui vẻ", "Nghệ thuật"] },
-  { "id": 4, "name": "Sứ Mệnh 4", "keywords": ["Thực tế", "Cấu trúc", "Kỷ luật", "Vững chắc"] },
-  { "id": 5, "name": "Sứ Mệnh 5", "keywords": ["Tự do", "Phiêu lưu", "Thay đổi", "Linh hoạt"] },
-  { "id": 6, "name": "Sứ Mệnh 6", "keywords": ["Trách nhiệm", "Chăm sóc", "Tình yêu", "Gia đình"] },
-  { "id": 7, "name": "Sứ Mệnh 7", "keywords": ["Phân tích", "Tâm linh", "Trí tuệ", "Nghiên cứu"] },
-  { "id": 8, "name": "Sứ Mệnh 8", "keywords": ["Quyền lực", "Tài chính", "Thành công", "Điều hành"] },
-  { "id": 9, "name": "Sứ Mệnh 9", "keywords": ["Nhân đạo", "Kết thúc", "Khoan dung", "Toàn cầu"] },
-  { "id": 11, "name": "Sứ Mệnh 11", "keywords": ["Trực giác", "Tâm linh", "Lý tưởng", "Cảm hứng"] },
-  { "id": 22, "name": "Sứ Mệnh 22", "keywords": ["Kiến tạo", "Tầm nhìn", "Vĩ đại", "Thực tiễn"] },
-  { "id": 33, "name": "Sứ Mệnh 33", "keywords": ["Chữa lành", "Ban phước", "Yêu thương", "Vô tư"] }
+  {
+    "id": "life_path_1",
+    "type": "life_path",
+    "number": 1,
+    "title": "Đường Đời 1 - Người Tiên Phong",
+    "keywords": ["Lãnh đạo", "Độc lập", "Quyết đoán", "Sáng tạo", "Tiên phong"],
+    "public_summary": "Bạn mang năng lượng của người khởi đầu - luôn có xu hướng đi trước, tự mở đường thay vì đi theo lối mòn của người khác. Tính độc lập và sự quyết đoán là điểm nổi bật nhất ở bạn.",
+    "private_details": {
+      "personality": "Người số 1 có nội lực mạnh và ý chí khó lay chuyển. Bạn muốn tự làm mọi thứ theo cách của mình, không thích rập khuôn theo số đông, luôn cần một mục tiêu để chinh phục. Đằng sau vẻ mạnh mẽ là nỗi sợ thất bại khiến bạn cố tỏ ra kiên cường ngay cả lúc khó khăn.",
+      "strengths": [
+        "Tự tin, dám nghĩ dám làm",
+        "Khả năng lãnh đạo tự nhiên",
+        "Sáng tạo, thích đổi mới",
+        "Ý chí mạnh mẽ",
+        "Chủ động"
+      ],
+      "weaknesses": [
+        "Cái tôi cao, đôi khi bảo thủ",
+        "Khó chấp nhận ý kiến trái chiều",
+        "Dễ cô độc vì thói quen tự làm mọi việc",
+        "Nóng vội, thiếu kiên nhẫn"
+      ],
+      "career_advice": "Phù hợp với vai trò chủ động quyết định và dẫn dắt: khởi nghiệp, quản lý, freelance. Tránh môi trường quá gò bó nhiều tầng cấp. Học cách ủy quyền để đi xa hơn.",
+      "love_advice": "Cần một người bạn đời đủ bản lĩnh nhưng không cạnh tranh vị trí dẫn đầu. Bài học lớn nhất là học lắng nghe và chia sẻ quyền quyết định.",
+      "spiritual_lesson": "Học cách đứng vững một mình mà không cô lập bản thân. Sức mạnh thật sự nằm ở việc biết khi nào nên bước lên và khi nào nên lùi lại."
+    }
+  },
+  {
+    "id": "life_path_2",
+    "type": "life_path",
+    "number": 2,
+    "title": "Đường Đời 2 - Người Kiến Tạo Hòa Hợp",
+    "keywords": ["Nhạy cảm", "Hợp tác", "Hòa giải", "Trực giác", "Kiên nhẫn"],
+    "public_summary": "Bạn mang năng lượng của sự cân bằng và kết nối. Thay vì dẫn đầu ồn ào, bạn tạo ảnh hưởng bằng sự tinh tế và khả năng lắng nghe.",
+    "private_details": {
+      "personality": "Thế giới nội tâm phong phú, dễ cảm nhận cảm xúc người khác dù họ chưa nói ra. Coi trọng hợp tác hơn cạnh tranh, thường là cầu nối giúp mọi người xích lại gần nhau. Sự nhạy cảm cũng khiến bạn dễ tổn thương, hay im lặng thay vì bảo vệ nhu cầu của mình.",
+      "strengths": [
+        "Lắng nghe, thấu cảm sâu sắc",
+        "Giỏi hòa giải, làm việc nhóm tốt",
+        "Trực giác nhạy bén",
+        "Kiên nhẫn, chú ý chi tiết"
+      ],
+      "weaknesses": [
+        "Ngại xung đột, né tránh đối đầu",
+        "Đặt nhu cầu người khác lên trên bản thân",
+        "Thiếu quyết đoán",
+        "Dễ bị cảm xúc môi trường ảnh hưởng"
+      ],
+      "career_advice": "Phù hợp tư vấn, nhân sự, giáo dục, chăm sóc sức khỏe, hòa giải, vai trò hỗ trợ phía sau tập thể. Không cần là người đứng đầu để tạo giá trị lớn.",
+      "love_advice": "Là người bạn đời chân thành, tận tâm. Bài học là học bày tỏ nhu cầu thật, thay vì âm thầm chịu đựng để giữ hòa khí.",
+      "spiritual_lesson": "Học yêu thương và tôn trọng chính mình trước khi làm hài lòng người khác. Hòa hợp thật sự đến từ ranh giới lành mạnh, không phải đánh mất bản thân."
+    }
+  },
+  {
+    "id": "life_path_3",
+    "type": "life_path",
+    "number": 3,
+    "title": "Đường Đời 3 - Người Biểu Đạt",
+    "keywords": ["Sáng tạo", "Giao tiếp", "Nghệ thuật", "Lạc quan", "Cảm hứng"],
+    "public_summary": "Bạn là người mang năng lượng vui tươi, sáng tạo và có khả năng truyền cảm hứng cho người khác qua lời nói, chữ viết hoặc nghệ thuật.",
+    "private_details": {
+      "personality": "Giàu trí tưởng tượng, thích thể hiện bản thân và luôn tìm cách làm cho cuộc sống thêm màu sắc. Bạn dễ thu hút người khác nhờ sự hài hước và cởi mở, nhưng đôi khi dùng sự vui vẻ để che giấu cảm xúc thật khi tổn thương.",
+      "strengths": [
+        "Sáng tạo, giàu ý tưởng",
+        "Giao tiếp cuốn hút",
+        "Lạc quan, truyền năng lượng tích cực",
+        "Linh hoạt, thích nghi nhanh"
+      ],
+      "weaknesses": [
+        "Thiếu tập trung, dễ chán",
+        "Né tránh cảm xúc tiêu cực bằng sự hời hợt",
+        "Khó duy trì kỷ luật dài hạn",
+        "Dễ phân tán năng lượng vào nhiều việc cùng lúc"
+      ],
+      "career_advice": "Phù hợp truyền thông, marketing, nghệ thuật, viết lách, giải trí, giáo dục sáng tạo. Cần rèn tính kỷ luật để biến ý tưởng thành thành quả cụ thể.",
+      "love_advice": "Mang lại niềm vui và sự mới mẻ cho mối quan hệ. Bài học là học sự nghiêm túc và cam kết, thay vì né tránh những cuộc trò chuyện sâu sắc, khó khăn.",
+      "spiritual_lesson": "Học cách thể hiện cảm xúc thật, kể cả khi không vui vẻ. Sáng tạo chân thực đến từ việc dám đối diện với nội tâm, không chỉ từ bề nổi rực rỡ."
+    }
+  },
+  {
+    "id": "life_path_4",
+    "type": "life_path",
+    "number": 4,
+    "title": "Đường Đời 4 - Người Xây Nền Móng",
+    "keywords": ["Kỷ luật", "Ổn định", "Trách nhiệm", "Thực tế", "Kiên trì"],
+    "public_summary": "Bạn là người đáng tin cậy, làm việc có hệ thống và luôn hướng đến sự ổn định lâu dài thay vì những thành công chớp nhoáng.",
+    "private_details": {
+      "personality": "Coi trọng trật tự, quy tắc và sự chắc chắn. Bạn xây dựng mọi thứ từng bước một cách bền vững, không thích rủi ro hay sự mơ hồ. Tinh thần trách nhiệm cao khiến bạn gánh vác nhiều hơn mức cần thiết, đôi khi quên chăm sóc bản thân.",
+      "strengths": [
+        "Kỷ luật, đáng tin cậy",
+        "Kiên trì, chịu khó",
+        "Tư duy thực tế, có tổ chức",
+        "Trung thành với cam kết"
+      ],
+      "weaknesses": [
+        "Cứng nhắc, ngại thay đổi",
+        "Dễ căng thẳng vì ôm đồm trách nhiệm",
+        "Khó thể hiện cảm xúc",
+        "Đôi khi quá cầu toàn"
+      ],
+      "career_advice": "Phù hợp quản lý dự án, kế toán, kỹ thuật, xây dựng hệ thống, vận hành. Cần học cách linh hoạt hơn và chấp nhận thay đổi khi cần thiết.",
+      "love_advice": "Là người bạn đời ổn định, đáng tin. Bài học là học mở lòng chia sẻ cảm xúc thay vì chỉ thể hiện tình yêu qua hành động và trách nhiệm.",
+      "spiritual_lesson": "Học buông bỏ nhu cầu kiểm soát mọi thứ. Sự vững chắc thật sự đến từ nội tâm linh hoạt, không chỉ từ cấu trúc bên ngoài."
+    }
+  },
+  {
+    "id": "life_path_5",
+    "type": "life_path",
+    "number": 5,
+    "title": "Đường Đời 5 - Người Khai Phóng Tự Do",
+    "keywords": ["Tự do", "Phiêu lưu", "Linh hoạt", "Tò mò", "Thay đổi"],
+    "public_summary": "Bạn khao khát tự do, trải nghiệm và sự đa dạng trong cuộc sống. Sự nhàm chán và gò bó là điều bạn sợ nhất.",
+    "private_details": {
+      "personality": "Ham học hỏi, thích khám phá những điều mới mẻ và không ngại thay đổi. Bạn thích nghi nhanh với mọi hoàn cảnh, nhưng đôi khi khó gắn bó lâu dài với một công việc, một nơi ở hay một mối quan hệ vì sợ đánh mất tự do.",
+      "strengths": [
+        "Linh hoạt, thích nghi nhanh",
+        "Tò mò, ham học hỏi",
+        "Giao tiếp tốt, quảng giao",
+        "Dũng cảm thử thách bản thân"
+      ],
+      "weaknesses": [
+        "Thiếu kiên định, dễ bỏ cuộc",
+        "Ngại cam kết dài hạn",
+        "Bốc đồng, thiếu suy tính",
+        "Dễ chán nản khi lặp lại thói quen"
+      ],
+      "career_advice": "Phù hợp công việc đa dạng, ít gò bó: du lịch, kinh doanh tự do, truyền thông, sales, công việc yêu cầu di chuyển nhiều. Cần rèn tính kiên định để hoàn thành mục tiêu dài hạn.",
+      "love_advice": "Cần một người bạn đời tôn trọng không gian riêng của bạn. Bài học là học cam kết mà không cảm thấy bị ràng buộc, và hiểu rằng tự do thật sự có thể tồn tại trong một mối quan hệ sâu sắc.",
+      "spiritual_lesson": "Học tìm sự tự do từ bên trong, không phải chỉ qua việc thay đổi hoàn cảnh bên ngoài. Kỷ luật đúng cách không phải là tù túng mà là nền tảng cho tự do bền vững."
+    }
+  },
+  {
+    "id": "life_path_6",
+    "type": "life_path",
+    "number": 6,
+    "title": "Đường Đời 6 - Người Chăm Sóc",
+    "keywords": ["Trách nhiệm", "Yêu thương", "Gia đình", "Hài hòa", "Chở che"],
+    "public_summary": "Bạn mang năng lượng của tình yêu thương và trách nhiệm. Gia đình, cộng đồng và những người xung quanh luôn là ưu tiên hàng đầu của bạn.",
+    "private_details": {
+      "personality": "Giàu lòng trắc ẩn, luôn muốn chăm sóc và bảo vệ những người thân yêu. Bạn có con mắt thẩm mỹ tốt, coi trọng sự hài hòa trong không gian sống và các mối quan hệ. Đôi khi bạn ôm đồm trách nhiệm của người khác đến mức quên đi nhu cầu của chính mình.",
+      "strengths": [
+        "Giàu lòng trắc ẩn, chu đáo",
+        "Có trách nhiệm cao",
+        "Gu thẩm mỹ, coi trọng sự hài hòa",
+        "Đáng tin cậy trong vai trò hỗ trợ"
+      ],
+      "weaknesses": [
+        "Ôm đồm, khó nói không",
+        "Dễ hy sinh bản thân quá mức",
+        "Hay lo lắng, kiểm soát người thân",
+        "Dễ cảm thấy tội lỗi khi ưu tiên bản thân"
+      ],
+      "career_advice": "Phù hợp giáo dục, y tế, thiết kế nội thất, công tác xã hội, quản lý gia đình/cộng đồng. Cần học đặt ranh giới để không kiệt sức vì gánh vác quá nhiều.",
+      "love_advice": "Là người bạn đời tận tụy, luôn vun vén cho gia đình. Bài học là học yêu thương mà không kiểm soát, và nhận ra chăm sóc bản thân cũng quan trọng như chăm sóc người khác.",
+      "spiritual_lesson": "Học rằng tình yêu thương thật sự bắt đầu từ việc yêu chính mình trước. Cho đi mà không cạn kiệt bản thân mới là sự chăm sóc bền vững."
+    }
+  },
+  {
+    "id": "life_path_7",
+    "type": "life_path",
+    "number": 7,
+    "title": "Đường Đời 7 - Người Tìm Kiếm Chân Lý",
+    "keywords": ["Trí tuệ", "Phân tích", "Nội tâm", "Tâm linh", "Độc lập"],
+    "public_summary": "Bạn là người có chiều sâu tư duy, luôn đặt câu hỏi và tìm kiếm ý nghĩa thật sự đằng sau mọi sự việc thay vì chấp nhận bề nổi.",
+    "private_details": {
+      "personality": "Thiên về suy nghĩ hơn hành động, thích không gian yên tĩnh để chiêm nghiệm. Bạn có khả năng phân tích sắc bén và trực giác tâm linh mạnh, nhưng lại khó mở lòng với người khác và đôi khi tự cô lập mình trong thế giới nội tâm.",
+      "strengths": [
+        "Tư duy phân tích sâu sắc",
+        "Trực giác và nhạy cảm tâm linh",
+        "Độc lập trong suy nghĩ",
+        "Khả năng tập trung cao"
+      ],
+      "weaknesses": [
+        "Khó mở lòng, xa cách với người khác",
+        "Dễ hoài nghi quá mức",
+        "Có xu hướng cô lập bản thân",
+        "Khó chia sẻ cảm xúc thật"
+      ],
+      "career_advice": "Phù hợp nghiên cứu, phân tích dữ liệu, công nghệ, khoa học, viết lách chuyên sâu, hoặc các lĩnh vực tâm linh/triết học. Cần môi trường cho phép làm việc độc lập và tập trung.",
+      "love_advice": "Cần một người bạn đời tôn trọng không gian riêng tư và sự tĩnh lặng của bạn. Bài học là học mở lòng chia sẻ, thay vì rút lui khi cảm xúc trở nên phức tạp.",
+      "spiritual_lesson": "Học kết nối trí tuệ với trái tim. Chân lý sâu sắc nhất không chỉ đến từ phân tích lý trí mà còn từ việc dám cảm nhận và kết nối với người khác."
+    }
+  },
+  {
+    "id": "life_path_8",
+    "type": "life_path",
+    "number": 8,
+    "title": "Đường Đời 8 - Người Kiến Tạo Quyền Lực",
+    "keywords": ["Tham vọng", "Quyền lực", "Vật chất", "Quản lý", "Thành tựu"],
+    "public_summary": "Bạn mang năng lượng của sự thành công và quyền lực. Khả năng tổ chức, tầm nhìn xa và tham vọng lớn giúp bạn hướng đến những thành tựu đáng kể trong đời.",
+    "private_details": {
+      "personality": "Có tư duy chiến lược, giỏi quản lý nguồn lực và luôn hướng đến kết quả cụ thể. Bạn đặt mục tiêu cao cho bản thân và không ngại làm việc chăm chỉ để đạt được. Đôi khi bạn đánh giá giá trị bản thân và người khác qua thành tựu vật chất.",
+      "strengths": [
+        "Tư duy chiến lược, tầm nhìn xa",
+        "Khả năng quản lý, tổ chức tốt",
+        "Tham vọng, kiên trì theo đuổi mục tiêu",
+        "Quyết đoán trong kinh doanh"
+      ],
+      "weaknesses": [
+        "Dễ đặt nặng vật chất, quyền lực",
+        "Có xu hướng kiểm soát người khác",
+        "Làm việc quá sức, mất cân bằng cuộc sống",
+        "Khó chấp nhận thất bại"
+      ],
+      "career_advice": "Phù hợp kinh doanh, tài chính, quản lý cấp cao, bất động sản, đầu tư. Cần học cân bằng giữa thành công vật chất và đời sống tinh thần, các mối quan hệ.",
+      "love_advice": "Cần một người bạn đời hiểu và ủng hộ tham vọng của bạn. Bài học là học dành thời gian và sự quan tâm chân thành, không chỉ đo tình yêu bằng những gì có thể cung cấp về vật chất.",
+      "spiritual_lesson": "Học rằng quyền lực thật sự đến từ khả năng trao quyền cho người khác, không chỉ tích lũy cho riêng mình. Thành công bền vững gắn liền với sự chính trực."
+    }
+  },
+  {
+    "id": "life_path_9",
+    "type": "life_path",
+    "number": 9,
+    "title": "Đường Đời 9 - Người Vị Tha",
+    "keywords": [
+      "Vị tha",
+      "Nhân ái",
+      "Lý tưởng",
+      "Rộng lượng",
+      "Kết thúc chu kỳ"
+    ],
+    "public_summary": "Bạn mang năng lượng của lòng nhân ái và tinh thần phụng sự. Bạn quan tâm đến những vấn đề lớn hơn bản thân mình, hướng đến việc mang lại giá trị cho cộng đồng và thế giới.",
+    "private_details": {
+      "personality": "Giàu lòng trắc ẩn, dễ đồng cảm với nỗi đau của người khác và thường đặt lợi ích chung lên trên lợi ích cá nhân. Bạn có tầm nhìn rộng, dễ dàng buông bỏ những gì không còn phù hợp. Tuy nhiên bạn cũng dễ ôm quá nhiều kỳ vọng, dẫn đến thất vọng khi thực tế không như lý tưởng.",
+      "strengths": [
+        "Lòng nhân ái, vị tha",
+        "Tầm nhìn rộng, bao dung",
+        "Khả năng truyền cảm hứng",
+        "Dễ buông bỏ, thích nghi với kết thúc"
+      ],
+      "weaknesses": [
+        "Dễ hy sinh bản thân quá mức",
+        "Ôm kỳ vọng phi thực tế, dễ thất vọng",
+        "Khó thiết lập ranh giới cá nhân",
+        "Có xu hướng u sầu khi lý tưởng không thành"
+      ],
+      "career_advice": "Phù hợp công tác xã hội, giáo dục, nghệ thuật, hoạt động phi lợi nhuận, chữa lành. Cần học cân bằng giữa cho đi và giữ lại đủ nguồn lực cho chính mình.",
+      "love_advice": "Là người yêu bao dung, rộng lượng. Bài học là học yêu một người thật sự thay vì yêu hình mẫu lý tưởng mà bạn kỳ vọng ở họ.",
+      "spiritual_lesson": "Học buông bỏ mà không mất kết nối. Sự vị tha trọn vẹn nhất là khi bạn cho đi từ sự đủ đầy bên trong, không phải từ sự thiếu thốn muốn được công nhận."
+    }
+  },
+  {
+    "id": "life_path_11",
+    "type": "life_path",
+    "number": 11,
+    "title": "Đường Đời 11 - Người Truyền Cảm Hứng",
+    "keywords": [
+      "Trực giác mạnh",
+      "Nhạy cảm cao",
+      "Tâm linh",
+      "Truyền cảm hứng",
+      "Số chủ đạo"
+    ],
+    "public_summary": "Là một Master Number, bạn mang năng lượng gấp đôi của số 2 nhưng ở tầng cao hơn - trực giác cực nhạy, khả năng truyền cảm hứng và kết nối tâm linh mạnh mẽ.",
+    "private_details": {
+      "personality": "Nhạy cảm hơn người thường rất nhiều, dễ tiếp nhận năng lượng và cảm xúc từ môi trường xung quanh. Bạn có khả năng nhìn thấy những điều người khác không thấy, thường mang trong mình một sứ mệnh hoặc thông điệp muốn truyền tải. Áp lực từ chính năng lượng cao này đôi khi khiến bạn dễ lo âu, mất cân bằng.",
+      "strengths": [
+        "Trực giác vượt trội",
+        "Khả năng truyền cảm hứng mạnh mẽ",
+        "Nhạy cảm tâm linh cao",
+        "Sáng tạo và giàu lý tưởng"
+      ],
+      "weaknesses": [
+        "Dễ lo âu, căng thẳng thần kinh",
+        "Áp lực tự đặt ra cho bản thân quá lớn",
+        "Khó tiếp đất, dễ mất phương hướng",
+        "Nhạy cảm quá mức với năng lượng tiêu cực"
+      ],
+      "career_advice": "Phù hợp các lĩnh vực truyền cảm hứng: giảng dạy, diễn thuyết, nghệ thuật, chữa lành, tư vấn tâm linh, sáng tạo nội dung có chiều sâu. Cần học cách tiếp đất (grounding) để không bị quá tải năng lượng.",
+      "love_advice": "Cần một người bạn đời có sự ổn định để cân bằng với năng lượng bay bổng của bạn. Bài học là học chia sẻ gánh nặng cảm xúc thay vì ôm một mình.",
+      "spiritual_lesson": "Học cách làm chủ nguồn năng lượng nhạy cảm của mình thay vì bị nó cuốn đi. Sứ mệnh truyền cảm hứng chỉ bền vững khi bạn giữ được sự ổn định nội tâm."
+    }
+  },
+  {
+    "id": "life_path_22",
+    "type": "life_path",
+    "number": 22,
+    "title": "Đường Đời 22 - Người Kiến Trúc Sư Bậc Thầy",
+    "keywords": [
+      "Tầm nhìn lớn",
+      "Thực thi",
+      "Master Number",
+      "Xây dựng",
+      "Ảnh hưởng rộng"
+    ],
+    "public_summary": "Là Master Number mạnh nhất, bạn kết hợp tầm nhìn của số 2 với khả năng thực thi vững chắc của số 4 - có thể biến những ý tưởng lớn thành hiện thực có quy mô.",
+    "private_details": {
+      "personality": "Vừa mơ lớn vừa có khả năng tổ chức thực tế để hiện thực hóa giấc mơ đó. Bạn thường mang trong mình những dự án hoặc mục tiêu vượt xa quy mô cá nhân, hướng đến ảnh hưởng lâu dài cho cộng đồng hoặc xã hội. Áp lực tự thân rất lớn vì bạn luôn cảm thấy mình có tiềm năng chưa khai thác hết.",
+      "strengths": [
+        "Tầm nhìn chiến lược lớn",
+        "Khả năng thực thi, tổ chức vững chắc",
+        "Kiên trì theo đuổi mục tiêu dài hạn",
+        "Ảnh hưởng tích cực đến quy mô lớn"
+      ],
+      "weaknesses": [
+        "Áp lực tự đặt ra quá cao",
+        "Dễ kiệt sức vì ôm mục tiêu lớn",
+        "Cầu toàn, khó hài lòng với kết quả",
+        "Có thể trì hoãn vì sợ không đạt tầm vóc mong muốn"
+      ],
+      "career_advice": "Phù hợp các vai trò xây dựng hệ thống lớn: kiến trúc, quy hoạch đô thị, lãnh đạo tổ chức, khởi nghiệp quy mô lớn, các dự án có tác động xã hội. Cần chia nhỏ mục tiêu để tránh quá tải.",
+      "love_advice": "Cần một người bạn đời thấu hiểu và ủng hộ những mục tiêu lớn của bạn. Bài học là học cân bằng giữa sự nghiệp và đời sống tình cảm, không để công việc lấn át kết nối cá nhân.",
+      "spiritual_lesson": "Học tin tưởng vào tiến trình thay vì chỉ tập trung vào đích đến. Những công trình vĩ đại được xây từng viên gạch một, không phải trong một ngày."
+    }
+  },
+  {
+    "id": "life_path_33",
+    "type": "life_path",
+    "number": 33,
+    "title": "Đường Đời 33 - Người Thầy Của Tình Yêu Thương",
+    "keywords": [
+      "Vị tha bậc cao",
+      "Chữa lành",
+      "Master Number",
+      "Yêu thương vô điều kiện",
+      "Phụng sự"
+    ],
+    "public_summary": "Là Master Number hiếm gặp nhất, bạn kết hợp sự chăm sóc của số 6 với chiều sâu tâm linh, mang sứ mệnh nâng đỡ và chữa lành cho những người xung quanh bằng tình yêu thương vô điều kiện.",
+    "private_details": {
+      "personality": "Sống vì người khác nhiều hơn bản thân, có khả năng cảm nhận và ôm trọn nỗi đau của những người xung quanh. Bạn mang năng lượng chữa lành tự nhiên, khiến người khác cảm thấy được an ủi khi ở gần bạn. Thách thức lớn nhất là học cách không đánh mất bản thân trong quá trình cho đi.",
+      "strengths": [
+        "Lòng yêu thương vô điều kiện",
+        "Khả năng chữa lành, an ủi người khác",
+        "Trách nhiệm cao với cộng đồng",
+        "Trí tuệ cảm xúc sâu sắc"
+      ],
+      "weaknesses": [
+        "Dễ hy sinh bản thân đến kiệt sức",
+        "Ôm nỗi đau của người khác quá mức",
+        "Khó từ chối khi được nhờ giúp đỡ",
+        "Dễ tổn thương vì đặt kỳ vọng cao vào tình yêu thương"
+      ],
+      "career_advice": "Phù hợp các lĩnh vực chữa lành, y tế, tâm lý trị liệu, giáo dục, công tác xã hội, lãnh đạo tinh thần. Cần thiết lập ranh giới rõ ràng để không kiệt sức vì luôn ưu tiên người khác.",
+      "love_advice": "Là người yêu sâu sắc, chân thành và giàu lòng bao dung. Bài học là học nhận lại tình yêu thương, không chỉ luôn ở vai trò người cho đi.",
+      "spiritual_lesson": "Học rằng bạn cũng xứng đáng được yêu thương và chăm sóc như những người bạn vẫn hết lòng giúp đỡ. Chữa lành người khác bền vững nhất khi bạn cũng tự chữa lành chính mình."
+    }
+  }
 ]

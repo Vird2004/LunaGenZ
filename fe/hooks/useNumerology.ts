@@ -18,7 +18,8 @@ export function useNumerology(name: string, dob: string) {
       setError(null);
 
       try {
-        const response = await fetch('http://localhost:8080/api/numerology', {
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+        const response = await fetch(`${baseUrl}/api/numerology`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -46,5 +47,23 @@ export function useNumerology(name: string, dob: string) {
 
   }, [name, dob]);
 
-  return { data, loading, error };
+  const sendEmail = async (emailAddress: string) => {
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+      const response = await fetch(`${baseUrl}/api/numerology`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, dob, email: emailAddress }),
+      });
+      if (!response.ok) throw new Error("Lỗi Server khi gửi email");
+      return true;
+    } catch (err) {
+      console.error("Lỗi khi gửi email:", err);
+      return false;
+    }
+  };
+
+  return { data, loading, error, sendEmail };
 }

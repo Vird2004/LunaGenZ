@@ -13,63 +13,116 @@ import { LenormandCard } from '@/types';
 export default function LenormandPage() {
   const { deck, loading } = useLenormand();
   const { userProfile } = useCosmicStore();
-  
+
   // 1. Quản lý bộ bài (Xào bài ngẫu nhiên tại máy khách)
   const [localDeck, setLocalDeck] = useState<LenormandCard[]>([]);
 
   // 2. Quản lý State cho Form tùy chọn
   const [selectedTheme, setSelectedTheme] = useState('Hàng Ngày');
   const [cardCount, setCardCount] = useState(3);
-  
+
   // 3. Quản lý State hiển thị kết quả
-  const [drawnCards, setDrawnCards] = useState<LenormandCard[]>([]);
+  const [displaySlots, setDisplaySlots] = useState<(LenormandCard | null)[]>([]);
   const [selectedCardInfo, setSelectedCardInfo] = useState<LenormandCard | null>(null);
-  const [isPremiumModalOpen, setIsPremiumModalOpen] = useState(false);
+  const [interpretation, setInterpretation] = useState<string>('');
+  const [loadingInterpretation, setLoadingInterpretation] = useState<boolean>(false);
 
-  // Xác định lá kích hoạt từ Giới tính trong Hồ sơ vũ trụ (Nam = 28, Nữ = 29)
-  const gender = userProfile?.gender?.toLowerCase() === 'nam' ? 'nam' : 'nữ';
-  const triggerCardId = gender === 'nam' ? 28 : 29;
-
-  // XÀO BÀI LẦN ĐẦU KHI VÀO TRANG
-  useEffect(() => {
-    if (deck && deck.length > 0) {
-      setLocalDeck([...deck].sort(() => Math.random() - 0.5));
+  // Xác định lá kích hoạt dựa trên chủ đề và quy mô trải bài
+  const getTriggerCards = (theme = selectedTheme, count = cardCount): number[] => {
+    if (theme === 'Hàng Ngày' || count === 1) return [];
+    if (theme === 'Tình Cảm') {
+      const gender = userProfile?.gender?.toLowerCase() === 'nam' ? 'nam' : 'nữ';
+      return gender === 'nam' ? [28] : [29];
     }
-  }, [deck]);
-
-  // HÀM XỬ LÝ KHI NGƯỜI DÙNG TỰ TAY BỐC BÀI TỪ XẤP BÀI ÚP
-  const drawCard = (clickedCard: LenormandCard) => {
-    // Nếu đã rút đủ số lượng thì không cho rút nữa
-    if (drawnCards.length >= cardCount) return;
-
-    let finalCardToDraw = clickedCard;
-
-    // LOGIC TRÁO BÀI (Chỉ áp dụng khi trải 3 lá)
-    if (cardCount === 3) {
-      if (drawnCards.length === 1) {
-        // LẦN BỐC THỨ 2: Ép buộc lật ra lá Kích Hoạt
-        const triggerCard = localDeck.find(c => c.id === triggerCardId);
-        if (triggerCard) finalCardToDraw = triggerCard;
-      } else {
-        // LẦN BỐC 1 & 3: Rút ngẫu nhiên.
-        // Nhưng nếu vô tình bấm trúng lá Kích Hoạt, ngầm đổi sang 1 lá khác chưa rút
-        if (clickedCard.id === triggerCardId) {
-          const substituteCard = localDeck.find(c => c.id !== triggerCardId && !drawnCards.some(d => d.id === c.id));
-          if (substituteCard) finalCardToDraw = substituteCard;
-        }
-      }
+    if (theme === 'Công Việc') {
+      return [14, 34]; // Fox or Fish
     }
-
-    // Thêm lá bài vào danh sách bài đã rút
-    if (!drawnCards.find(c => c.id === finalCardToDraw.id)) {
-      setDrawnCards([...drawnCards, finalCardToDraw]);
-    }
+    return [];
   };
 
   // HÀM ÚP BÀI VÀ XÀO LẠI (SHUFFLE)
-  const resetReading = () => {
-    setDrawnCards([]); // Dọn bàn
-    setLocalDeck([...localDeck].sort(() => Math.random() - 0.5)); // Xào lại 36 lá
+  const resetReading = (theme = selectedTheme, count = cardCount) => {
+    setInterpretation(''); // Xoá kết quả AI
+    if (!deck || deck.length === 0) return;
+    
+    const newDeck = [...deck].sort(() => Math.random() - 0.5);
+    setLocalDeck(newDeck);
+    
+    const slots = Array(count).fill(null);
+    const triggerCards = getTriggerCards(theme, count);
+    
+    if (triggerCards.length > 0) {
+       const targetTriggerId = triggerCards[Math.floor(Math.random() * triggerCards.length)];
+       const triggerCard = newDeck.find(c => c.id === targetTriggerId);
+       if (triggerCard) {
+          slots[Math.floor(count / 2)] = triggerCard;
+       }
+    }
+    setDisplaySlots(slots);
+  };
+
+  // XÀO BÀI LẦN ĐẦU KHI VÀO TRANG HOẶC KHI TẢI XONG BỘ BÀI
+  useEffect(() => {
+    if (deck && deck.length > 0 && localDeck.length === 0) {
+      resetReading(selectedTheme, cardCount);
+    }
+  }, [deck]);
+
+  // GỌI API KHI RÚT ĐỦ BÀI
+  useEffect(() => {
+    if (displaySlots.length === cardCount && displaySlots.every(c => c !== null)) {
+      const fetchInterpretation = async () => {
+        setLoadingInterpretation(true);
+        try {
+          const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+          const res = await fetch(`${baseUrl}/api/lenormand`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              topic: selectedTheme,
+              spreadType: cardCount,
+              cardIds: displaySlots.map(c => c!.id)
+            })
+          });
+          const data = await res.json();
+          setInterpretation(data.interpretation || 'Không thể lấy thông điệp vũ trụ lúc này.');
+        } catch (e) {
+          setInterpretation('Lỗi kết nối tới máy chủ vũ trụ.');
+        } finally {
+          setLoadingInterpretation(false);
+        }
+      };
+      fetchInterpretation();
+    }
+  }, [displaySlots, cardCount, selectedTheme]);
+
+  // HÀM XỬ LÝ KHI NGƯỜI DÙNG TỰ TAY BỐC BÀI TỪ XẤP BÀI ÚP
+  const drawCard = (clickedCard: LenormandCard) => {
+    setDisplaySlots(prev => {
+      // Nếu tất cả các vị trí đã kín thì không bốc thêm
+      if (prev.every(c => c !== null)) return prev;
+      
+      // Chống bấm 2 lần vào cùng 1 lá
+      if (prev.some(c => c?.id === clickedCard.id)) return prev;
+
+      const triggerCards = getTriggerCards();
+      let finalCardToDraw = clickedCard;
+      
+      // Tránh vô tình bốc trúng lá chủ thể nếu nó chưa hiển thị (chỉ đề phòng, vì thực tế nó đã được rút trước)
+      if (triggerCards.includes(clickedCard.id)) {
+        const substitute = localDeck.find(c => !triggerCards.includes(c.id) && !prev.some(d => d?.id === c.id) && c.id !== clickedCard.id);
+        if (substitute) finalCardToDraw = substitute;
+      }
+
+      // Tìm khe trống đầu tiên
+      const firstEmptyIndex = prev.findIndex(c => c === null);
+      if (firstEmptyIndex !== -1) {
+        const newSlots = [...prev];
+        newSlots[firstEmptyIndex] = finalCardToDraw;
+        return newSlots;
+      }
+      return prev;
+    });
   };
 
   if (loading || localDeck.length === 0) {
@@ -83,7 +136,7 @@ export default function LenormandPage() {
 
   return (
     <div className="space-y-12 pb-20 pt-8 w-full max-w-screen-xl mx-auto overflow-x-hidden">
-      
+
       <div className="text-center space-y-4 px-4">
         <h1 className="text-4xl font-bold">Trải Bài Lenormand</h1>
         <p className="text-white/60">
@@ -95,7 +148,7 @@ export default function LenormandPage() {
       <div className="relative w-full h-48 flex justify-center items-center py-4 px-2 sm:px-4">
         <div className="flex items-center justify-center">
           {localDeck.map((card, idx) => {
-            const isDrawn = drawnCards.some(c => c.id === card.id);
+            const isDrawn = displaySlots.some(c => c?.id === card.id);
             if (isDrawn) return null;
 
             return (
@@ -121,51 +174,60 @@ export default function LenormandPage() {
       <div className="min-h-[350px] flex flex-col items-center gap-8 px-4">
         <div className="flex justify-center gap-4 sm:gap-8 flex-wrap w-full">
           <AnimatePresence mode="popLayout">
-            
-            {/* Hiển thị các lá bài đã lật */}
-            {drawnCards.map((card, index) => {
-              const isTrigger = cardCount === 3 && index === 1;
 
-              return (
-                <motion.div
-                  key={`drawn-${card.id}`}
-                  initial={{ opacity: 0, scale: 0.5, rotateY: 180, y: -100 }}
-                  animate={{ opacity: 1, scale: 1, rotateY: 0, y: 0 }}
-                  transition={{ type: "spring", stiffness: 100, damping: 15 }}
-                  className={`w-40 h-64 sm:w-48 sm:h-72 cursor-pointer group ${isTrigger ? 'z-10' : ''}`}
-                  onClick={() => setSelectedCardInfo(card)}
-                >
-                  <GlassCard className={`w-full h-full p-3 sm:p-4 flex flex-col items-center text-center justify-between transition-transform hover:-translate-y-2 relative ${isTrigger ? 'border-accent bg-[#1a1f35]/90 scale-105 shadow-[0_0_20px_rgba(255,215,0,0.2)]' : 'border-white/10 bg-[#1a1f35]/70 hover:border-accent/50'}`}>
-                    {isTrigger && <div className="absolute -top-3 bg-accent text-background text-[10px] font-bold px-3 py-1 rounded-full uppercase">Chủ Thể</div>}
-                    <div className="text-xs font-bold text-accent">Lá số {card.id}</div>
-                    <div className="flex-1 w-full flex items-center justify-center my-3 bg-white/5 rounded-lg border border-white/10 overflow-hidden">
-                      <div className="text-4xl text-white/80 font-serif">✨</div>
-                    </div>
-                    <h3 className="font-bold text-sm sm:text-base leading-tight mb-2">{card.name}</h3>
-                    <p className="text-[10px] sm:text-xs text-white/50 italic">Nhấn xem chi tiết</p>
-                  </GlassCard>
-                </motion.div>
-              );
+            {/* Hiển thị các vị trí lá bài */}
+            {displaySlots.map((card, index) => {
+              if (card) {
+                const triggerCards = getTriggerCards();
+                const isTrigger = triggerCards.includes(card.id);
+
+                return (
+                  <motion.div
+                    key={`drawn-${card.id}`}
+                    initial={{ opacity: 0, scale: 0.5, rotateY: 180, y: -100 }}
+                    animate={{ opacity: 1, scale: 1, rotateY: 0, y: 0 }}
+                    transition={{ type: "spring", stiffness: 100, damping: 15 }}
+                    className={`w-40 h-64 sm:w-48 sm:h-72 cursor-pointer group ${isTrigger ? 'z-10' : ''}`}
+                    onClick={() => setSelectedCardInfo(card)}
+                  >
+                    <GlassCard className={`w-full h-full p-3 sm:p-4 flex flex-col items-center text-center justify-between transition-transform hover:-translate-y-2 relative ${isTrigger ? 'border-accent bg-[#1a1f35]/90 scale-105 shadow-[0_0_20px_rgba(255,215,0,0.2)]' : 'border-white/10 bg-[#1a1f35]/70 hover:border-accent/50'}`}>
+                      {isTrigger && <div className="absolute -top-3 bg-accent text-background text-[10px] font-bold px-3 py-1 rounded-full uppercase">Chủ Thể</div>}
+                      <div className="text-xs font-bold text-accent">Lá số {card.id}</div>
+                      <div className="flex-1 w-full flex items-center justify-center my-3 bg-white/5 rounded-lg border border-white/10 overflow-hidden relative">
+                        <img
+                          src={`/lenormand/${card.id}.jpg`}
+                          alt={card.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+
+                      <h3 className="font-bold text-sm sm:text-base leading-tight mb-2">{card.name}</h3>
+                      <p className="text-[10px] sm:text-xs text-white/50 italic">Nhấn xem chi tiết</p>
+                    </GlassCard>
+                  </motion.div>
+                );
+              } else {
+                return (
+                  <motion.div
+                    key={`empty-${index}`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="w-40 h-64 sm:w-48 sm:h-72 rounded-2xl border-2 border-dashed border-white/20 flex flex-col items-center justify-center bg-white/5 text-white/30"
+                  >
+                    <div className="text-2xl mb-2 opacity-50">👆</div>
+                    <span className="text-sm font-medium text-center px-2">
+                      Bốc lá {index + 1}
+                    </span>
+                  </motion.div>
+                );
+              }
             })}
-
-            {/* Hiển thị ô trống */}
-            {[...Array(Math.max(0, cardCount - drawnCards.length))].map((_, i) => (
-              <motion.div 
-                key={`empty-${i}`} 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="w-40 h-64 sm:w-48 sm:h-72 rounded-2xl border-2 border-dashed border-white/20 flex flex-col items-center justify-center bg-white/5 text-white/30"
-              >
-                <div className="text-2xl mb-2 opacity-50">👆</div>
-                <span className="text-sm font-medium">Bốc lá {drawnCards.length + i + 1}</span>
-              </motion.div>
-            ))}
 
           </AnimatePresence>
         </div>
 
-        {drawnCards.length > 0 && (
-          <CosmicButton variant="outline" onClick={resetReading}>
+        {displaySlots.some(c => c !== null) && (
+          <CosmicButton variant="outline" onClick={() => resetReading()}>
             <RefreshCw size={18} /> Úp bài rút lại
           </CosmicButton>
         )}
@@ -174,11 +236,11 @@ export default function LenormandPage() {
 
       {/* KHU VỰC BÊN DƯỚI: ĐƯỢC GOM CHUNG VÀO 1 KHUNG ĐỂ THẲNG HÀNG */}
       <div className="w-full max-w-3xl mx-auto px-4 space-y-8 flex flex-col items-center">
-        
+
         {/* --- 3. TEXT TỔNG QUAN AI --- */}
         <AnimatePresence>
-          {drawnCards.length === cardCount && (
-            <motion.div 
+          {displaySlots.length === cardCount && displaySlots.every(c => c !== null) && (
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -189,9 +251,16 @@ export default function LenormandPage() {
                 <h3 className="font-bold text-lg">Thông điệp tổng quan: {selectedTheme}</h3>
                 <Sparkles size={20} />
               </div>
-              <p className="text-white/80 leading-relaxed text-center">
-                Sự xuất hiện của {drawnCards.map(c => `[${c.name}]`).join(' - ')} mang đến thông điệp rằng bạn đang nắm quyền kiểm soát tình huống. Quá khứ đã để lại những bài học quý giá, hiện tại đòi hỏi sự tập trung, và tương lai đang mở ra những tín hiệu tích cực. Hãy tin tưởng vào trực giác của bản thân.
-              </p>
+              {loadingInterpretation ? (
+                <div className="flex justify-center items-center py-4">
+                  <Loader2 className="w-8 h-8 text-accent animate-spin" />
+                  <span className="ml-3 text-white/80">Đang kết nối vũ trụ...</span>
+                </div>
+              ) : (
+                <p className="text-white/80 leading-relaxed text-center">
+                  {interpretation}
+                </p>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
@@ -200,7 +269,7 @@ export default function LenormandPage() {
         <div className="w-full relative">
           {/* Lớp viền glow mờ ở dưới đáy để tạo cảm giác lơ lửng */}
           <div className="absolute inset-0 bg-accent/5 blur-xl rounded-3xl -z-10"></div>
-          
+
           <GlassCard className="w-full p-6 sm:p-8 bg-white/[0.02] border-white/10 backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
             <div className="flex items-center gap-2 mb-6 border-b border-white/10 pb-4">
               <Sparkles size={18} className="text-accent" />
@@ -211,10 +280,13 @@ export default function LenormandPage() {
               <div className="space-y-2">
                 <label className="text-xs font-semibold text-white/50 uppercase tracking-wider pl-1">Chủ Đề Trải Bài</label>
                 <div className="relative group">
-                  <select 
+                  <select
                     className="w-full px-4 py-3.5 rounded-xl bg-[#13172c]/80 border border-white/10 text-white/90 text-sm font-medium focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/50 hover:border-white/30 transition-all cursor-pointer appearance-none"
                     value={selectedTheme}
-                    onChange={(e) => { setSelectedTheme(e.target.value); resetReading(); }}
+                    onChange={(e) => { 
+                      setSelectedTheme(e.target.value); 
+                      resetReading(e.target.value, cardCount); 
+                    }}
                   >
                     <option value="Công Việc">💼 Sự Nghiệp & Công Việc</option>
                     <option value="Tình Cảm">❤️ Tình Yêu & Mối Quan Hệ</option>
@@ -230,11 +302,15 @@ export default function LenormandPage() {
               <div className="space-y-2">
                 <label className="text-xs font-semibold text-white/50 uppercase tracking-wider pl-1">Quy Mô Trải Bài</label>
                 <div className="relative group">
-                  <select 
+                  <select
                     className="w-full px-4 py-3.5 rounded-xl bg-[#13172c]/80 border border-white/10 text-white/90 text-sm font-medium focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/50 hover:border-white/30 transition-all cursor-pointer appearance-none"
                     value={cardCount}
-                    onChange={(e) => { setCardCount(Number(e.target.value)); resetReading(); }}
+                    onChange={(e) => { 
+                      setCardCount(Number(e.target.value)); 
+                      resetReading(selectedTheme, Number(e.target.value)); 
+                    }}
                   >
+                    <option value={5}>Trải 5 Lá (Toàn cảnh chuyên sâu)</option>
                     <option value={3}>Trải 3 Lá (Phân tích chuyên sâu)</option>
                     <option value={1}>Rút 1 Lá (Thông điệp nhanh)</option>
                   </select>
@@ -244,28 +320,17 @@ export default function LenormandPage() {
                 </div>
               </div>
             </div>
-            
+
             <div className="mt-6 flex justify-center">
-               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] text-white/40">
-                 <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
-                 </span>
-                 Cuộn lên để bốc bài trực tiếp từ cỗ bài
-               </span>
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] text-white/40">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+                </span>
+                Cuộn lên để bốc bài trực tiếp từ cỗ bài
+              </span>
             </div>
           </GlassCard>
-        </div>
-
-        {/* --- 5. NÚT PREMIUM GRAND TABLEAU --- */}
-        <div className="pt-4 pb-8 w-full flex justify-center">
-          <CosmicButton 
-            variant="primary" 
-            className="bg-gradient-to-r from-amber-500 to-orange-600 border-none shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:scale-105 transition-transform px-10 py-4 text-lg"
-            onClick={() => setIsPremiumModalOpen(true)}
-          >
-            Trải Bài Grand Tableau (36 Lá) <Lock size={20} className="ml-2" />
-          </CosmicButton>
         </div>
 
       </div>
@@ -283,7 +348,7 @@ export default function LenormandPage() {
             </div>
             <div className="bg-white/5 border border-white/10 p-5 rounded-xl text-left">
               <h3 className="font-semibold text-white/90 mb-3 border-b border-white/10 pb-2 flex items-center gap-2">
-                <Sparkles size={16} className="text-accent"/> Ý nghĩa: {selectedTheme}
+                <Sparkles size={16} className="text-accent" /> Ý nghĩa: {selectedTheme}
               </h3>
               <p className="text-white/80 text-sm leading-relaxed min-h-[100px]">
                 {selectedTheme === 'Tình Cảm' && selectedCardInfo.meaning.love}
@@ -299,25 +364,6 @@ export default function LenormandPage() {
         )}
       </Modal>
 
-      {/* --- POPUP 2: PREMIUM UPGRADE --- */}
-      <Modal isOpen={isPremiumModalOpen} onClose={() => setIsPremiumModalOpen(false)}>
-        <div className="space-y-6 text-center">
-          <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto text-accent">
-            <Lock size={32} />
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold text-white mb-2">Nâng Cấp Cao Cấp</h2>
-            <p className="text-white/70">
-              Trải bài Grand Tableau (36 lá) yêu cầu năng lượng phân tích khổng lồ. Vui lòng nâng cấp tài khoản để mở khóa.
-            </p>
-          </div>
-          <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-            <div className="text-xl font-bold text-accent mb-1">Gói Cao Cấp</div>
-            <div className="text-4xl font-bold mb-6">199.000đ<span className="text-base font-normal text-white/50">/tháng</span></div>
-            <CosmicButton className="w-full py-4 text-lg">Mở Khóa Ngay</CosmicButton>
-          </div>
-        </div>
-      </Modal>
 
       <style jsx global>{`
         .hide-scrollbar::-webkit-scrollbar {
