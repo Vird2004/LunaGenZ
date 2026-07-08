@@ -74,7 +74,7 @@ export default function LenormandPage() {
       const fetchInterpretation = async () => {
         setLoadingInterpretation(true);
         try {
-          const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+          const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://cbhjsvlkl9.execute-api.us-east-1.amazonaws.com';
           const res = await fetch(`${baseUrl}/api/lenormand`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

@@ -18,7 +18,7 @@ export function useNumerology(name: string, dob: string) {
       setError(null);
 
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://cbhjsvlkl9.execute-api.us-east-1.amazonaws.com';
         const response = await fetch(`${baseUrl}/api/numerology`, {
           method: 'POST',
           headers: {
@@ -48,22 +48,22 @@ export function useNumerology(name: string, dob: string) {
   }, [name, dob]);
 
   const sendEmail = async (emailAddress: string) => {
-    try {
-      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
-      const response = await fetch(`${baseUrl}/api/numerology`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, dob, email: emailAddress }),
-      });
-      if (!response.ok) throw new Error("Lỗi Server khi gửi email");
-      return true;
-    } catch (err) {
-      console.error("Lỗi khi gửi email:", err);
-      return false;
-    }
-  };
-
-  return { data, loading, error, sendEmail };
-}
+      try {
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://cbhjsvlkl9.execute-api.us-east-1.amazonaws.com';
+        const response = await fetch(`${baseUrl}/api/numerology`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name, dob, email: emailAddress }),
+        });
+        if (!response.ok) throw new Error("Lỗi Server khi gửi email");
+        return true;
+      } catch (err) {
+        console.error("Lỗi khi gửi email:", err);
+        return false;
+      }
+    };
+  
+    return { data, loading, error, sendEmail };
+  }
