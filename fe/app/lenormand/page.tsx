@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { useLenormand } from '@/hooks/useLenormand';
 import { useCosmicStore } from '@/store/useCosmicStore';
 import { GlassCard } from '@/components/ui/GlassCard';
@@ -74,20 +75,31 @@ export default function LenormandPage() {
       const fetchInterpretation = async () => {
         setLoadingInterpretation(true);
         try {
-          const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://cbhjsvlkl9.execute-api.us-east-1.amazonaws.com';
-          const res = await fetch(`${baseUrl}/api/lenormand`, {
+          const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
+          const res = await fetch(`${baseUrl}/api/aiHandler`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              topic: selectedTheme,
-              spreadType: cardCount,
-              cardIds: displaySlots.map(c => c!.id)
+              serviceType: "lenormand",
+              userInputs: {
+                topic: selectedTheme,
+                spreadType: cardCount,
+                cards: displaySlots.map(c => c!.name)
+              },
+              bookContext: displaySlots.map(c => `- Lá ${c!.name}: ${c!.meaning.daily}`).join('\n')
             })
           });
-          const data = await res.json();
-          setInterpretation(data.interpretation || 'Không thể lấy thông điệp vũ trụ lúc này.');
+          const result = await res.json();
+          
+          if (!res.ok || !result.data) {
+            throw new Error('API failed or no data returned');
+          }
+          
+          setInterpretation(result.data);
         } catch (e) {
-          setInterpretation('Lỗi kết nối tới máy chủ vũ trụ.');
+          const themeKey = selectedTheme === 'Tình Cảm' ? 'love' : selectedTheme === 'Công Việc' ? 'career' : 'daily';
+          const fallbackText = "Tính năng phân tích chi tiết bằng AI hiện không khả dụng (Chế độ Offline/Lỗi kết nối).\n\nÝ nghĩa cơ bản của các lá bài bạn vừa bốc:\n\n" + displaySlots.map(c => `- **${c!.name}**: ${c!.meaning[themeKey]}`).join('\n\n');
+          setInterpretation(fallbackText);
         } finally {
           setLoadingInterpretation(false);
         }
@@ -257,9 +269,23 @@ export default function LenormandPage() {
                   <span className="ml-3 text-white/80">Đang kết nối vũ trụ...</span>
                 </div>
               ) : (
-                <p className="text-white/80 leading-relaxed text-center">
-                  {interpretation}
-                </p>
+                <div className="text-left max-w-prose mx-auto">
+                  <ReactMarkdown
+                    components={{
+                      p: ({node, ...props}) => <p className="mb-4 text-white/80 leading-relaxed" {...props} />,
+                      strong: ({node, ...props}) => <strong className="text-accent font-bold" {...props} />,
+                      h1: ({node, ...props}) => <h1 className="text-2xl font-bold mt-6 mb-3 text-white" {...props} />,
+                      h2: ({node, ...props}) => <h2 className="text-xl font-bold mt-5 mb-2 text-white" {...props} />,
+                      h3: ({node, ...props}) => <h3 className="text-lg font-bold mt-4 mb-2 text-white/90" {...props} />,
+                      h4: ({node, ...props}) => <h4 className="text-base font-bold mt-3 mb-2 text-white/90" {...props} />,
+                      ul: ({node, ...props}) => <ul className="list-disc pl-6 mb-4 space-y-1 text-white/80" {...props} />,
+                      ol: ({node, ...props}) => <ol className="list-decimal pl-6 mb-4 space-y-1 text-white/80" {...props} />,
+                      li: ({node, ...props}) => <li className="pl-1" {...props} />,
+                    }}
+                  >
+                    {interpretation}
+                  </ReactMarkdown>
+                </div>
               )}
             </motion.div>
           )}

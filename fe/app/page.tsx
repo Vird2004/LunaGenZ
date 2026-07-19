@@ -10,11 +10,19 @@ import { motion } from 'framer-motion';
 
 export default function LandingPage() {
   const router = useRouter();
-  const { setUserProfile } = useCosmicStore();
+  const { setUserProfile, setPartnerProfile } = useCosmicStore();
   const [showDonatePopup, setShowDonatePopup] = useState(false);
+  const [mode, setMode] = useState<'single' | 'couple'>('single');
   const [formData, setFormData] = useState({
     name: '',
     gender: 'Nam',
+    dob: '',
+    email: ''
+  });
+
+  const [partnerFormData, setPartnerFormData] = useState({
+    name: '',
+    gender: 'Nữ',
     dob: '',
     email: ''
   });
@@ -23,7 +31,12 @@ export default function LandingPage() {
     e.preventDefault();
     if (formData.name && formData.dob) {
       setUserProfile(formData);
-      router.push('/numerology');
+      if (mode === 'couple' && partnerFormData.name && partnerFormData.dob) {
+        setPartnerProfile(partnerFormData);
+        router.push('/compatibility');
+      } else {
+        router.push('/numerology');
+      }
     }
   };
 
@@ -55,8 +68,27 @@ export default function LandingPage() {
           <GlassCard className="relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-accent/10 z-0" />
             <form onSubmit={handleSubmit} className="relative z-10 flex flex-col gap-6">
-              <h2 className="text-2xl font-bold flex items-center gap-2">
-                <Sparkles className="text-accent" /> Hồ Sơ Vũ Trụ
+              
+              <div className="flex justify-between items-center border-b border-white/10 pb-4">
+                <button
+                  type="button"
+                  onClick={() => setMode('single')}
+                  className={`flex-1 text-center font-bold text-lg pb-2 transition-colors border-b-2 ${mode === 'single' ? 'text-accent border-accent' : 'text-white/40 border-transparent hover:text-white/70'}`}
+                >
+                  Xem Cá Nhân
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMode('couple')}
+                  className={`flex-1 text-center font-bold text-lg pb-2 transition-colors border-b-2 ${mode === 'couple' ? 'text-pink-400 border-pink-400' : 'text-white/40 border-transparent hover:text-white/70'}`}
+                >
+                  Xem Tình Cảm
+                </button>
+              </div>
+
+              <h2 className="text-xl font-bold flex items-center gap-2 mt-2">
+                <Sparkles className={mode === 'couple' ? 'text-pink-400' : 'text-accent'} /> 
+                {mode === 'single' ? 'Hồ Sơ Vũ Trụ' : 'Thông Tin Của Bạn'}
               </h2>
               
               <div className="space-y-2">
@@ -106,8 +138,51 @@ export default function LandingPage() {
                 />
               </div>
 
-              <CosmicButton type="submit" className="w-full mt-4">
-                Tạo Lá Số Vũ Trụ
+              {mode === 'couple' && (
+                <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="flex flex-col gap-6 pt-6 border-t border-white/10 mt-2">
+                  <h2 className="text-xl font-bold flex items-center gap-2">
+                    <Sparkles className="text-pink-400" /> Thông Tin Người Ấy
+                  </h2>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-white/80">Họ và Tên</label>
+                    <input 
+                      type="text" 
+                      required
+                      placeholder="Nhập tên người ấy"
+                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-pink-400 transition-colors"
+                      value={partnerFormData.name}
+                      onChange={e => setPartnerFormData({ ...partnerFormData, name: e.target.value })}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-white/80">Giới Tính</label>
+                    <select 
+                      className="w-full px-4 py-3 rounded-xl bg-[#1a1f35] border border-white/10 text-white focus:outline-none focus:border-pink-400 transition-colors"
+                      value={partnerFormData.gender}
+                      onChange={e => setPartnerFormData({ ...partnerFormData, gender: e.target.value })}
+                    >
+                      <option value="Nam">Nam</option>
+                      <option value="Nữ">Nữ</option>
+                      <option value="Khác">Khác</option>
+                    </select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-white/80">Ngày Sinh</label>
+                    <input 
+                      type="date" 
+                      required
+                      className="w-full px-4 py-3 rounded-xl bg-[#1a1f35] border border-white/10 text-white focus:outline-none focus:border-pink-400 transition-colors"
+                      value={partnerFormData.dob}
+                      onChange={e => setPartnerFormData({ ...partnerFormData, dob: e.target.value })}
+                    />
+                  </div>
+                </motion.div>
+              )}
+
+              <CosmicButton type="submit" className={`w-full mt-4 ${mode === 'couple' ? 'bg-gradient-to-r from-pink-500 to-purple-600 shadow-pink-500/30' : ''}`}>
+                {mode === 'single' ? 'Tạo Lá Số Vũ Trụ' : 'Xem Độ Tương Hợp'}
               </CosmicButton>
             </form>
           </GlassCard>

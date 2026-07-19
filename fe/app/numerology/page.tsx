@@ -5,14 +5,19 @@ import { useCosmicStore } from '@/store/useCosmicStore';
 import { useNumerology } from '@/hooks/useNumerology';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { CosmicButton } from '@/components/ui/CosmicButton';
+import { Modal } from '@/components/ui/Modal';
 import { motion } from 'framer-motion';
 import { Sparkles, Star, Loader2, Download, Mail } from 'lucide-react';
 import { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 
 export default function NumerologyPage() {
   const router = useRouter();
   const { userProfile } = useCosmicStore();
-  const { data, loading, error, sendEmail } = useNumerology(userProfile?.name || '', userProfile?.dob || '');
+  
+  // 1. Quản lý State Loading: dùng alias isLoading
+  const { data, loading: isLoading, error, sendEmail } = useNumerology(userProfile?.name || '', userProfile?.dob || '', userProfile?.email || '');
+  
   const [selectedStat, setSelectedStat] = useState<any>(null);
   const [showEmailInput, setShowEmailInput] = useState(false);
   const [emailValue, setEmailValue] = useState(userProfile?.email || '');
@@ -69,14 +74,8 @@ export default function NumerologyPage() {
     );
   }
 
-  if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
-        <Loader2 className="w-12 h-12 text-accent animate-spin" />
-        <p className="text-xl animate-pulse text-white/80">Vũ trụ đang tính toán các con số của bạn...</p>
-      </div>
-    );
-  }
+  // Đoạn hiển thị Loading cũ đã được di dời xuống dưới để giữ Header
+  // Xóa bỏ block if (loading) return <Loader2 /> ở đây
 
   if (error) {
     return (
@@ -227,6 +226,24 @@ export default function NumerologyPage() {
     );
   };
 
+  // Hàm dọn dẹp placeholder rác "undefined" hoặc "Đang cập nhật..."
+  const cleanText = (text: string | undefined | null) => {
+    if (!text || text === "Đang cập nhật...") return "";
+    return text.replace(/undefined/g, "").trim();
+  };
+
+  const markdownComponents = {
+    p: ({node, ...props}: any) => <p className="mb-4" {...props} />,
+    strong: ({node, ...props}: any) => <strong className="text-accent font-bold" {...props} />,
+    h1: ({node, ...props}: any) => <h1 className="text-2xl font-bold mt-6 mb-3 text-white" {...props} />,
+    h2: ({node, ...props}: any) => <h2 className="text-xl font-bold mt-5 mb-2 text-white" {...props} />,
+    h3: ({node, ...props}: any) => <h3 className="text-lg font-bold mt-4 mb-2 text-white/90" {...props} />,
+    h4: ({node, ...props}: any) => <h4 className="text-base font-bold mt-3 mb-2 text-white/90" {...props} />,
+    ul: ({node, ...props}: any) => <ul className="list-disc pl-6 mb-4 space-y-1" {...props} />,
+    ol: ({node, ...props}: any) => <ol className="list-decimal pl-6 mb-4 space-y-1" {...props} />,
+    li: ({node, ...props}: any) => <li className="pl-1" {...props} />,
+  };
+
   return (
     <div className="space-y-12 max-w-5xl mx-auto pb-20 pt-8">
       
@@ -243,130 +260,161 @@ export default function NumerologyPage() {
         </h1>
       </motion.div>
 
-      {/* 1. LƯỚI CÁC CHỈ SỐ */}
-      <div className="pt-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-10 justify-items-center max-w-4xl mx-auto">
-          {numerologyStats.slice(0, 12).map((stat, idx) => (
-            <motion.div
-              key={idx}
-              onClick={() => setSelectedStat(stat)}
-              initial={{ opacity: 0, scale: 0.8, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ delay: idx * 0.05, type: "spring", stiffness: 100 }}
-              className="flex flex-col items-center justify-start gap-3 w-full cursor-pointer hover:scale-105 transition-transform"
-            >
-              <span className="text-sm font-bold text-white/90 text-center tracking-wide h-10 flex items-end">{stat.label}</span>
-              <div className="w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center border-2 border-dashed border-white/40 p-1">
-                <div className={`w-full h-full rounded-full flex items-center justify-center ${stat.color} shadow-lg`}>
-                  <span className="text-3xl md:text-4xl font-black text-white drop-shadow-sm">
-                    {stat.value}
-                  </span>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+      {/* 2. LOGIC ẨN/HIỆN UI DỰA TRÊN STATE LOADING */}
+      {isLoading ? (
+        <div className="flex flex-col items-center justify-center min-h-[40vh] space-y-4">
+          <Loader2 className="w-12 h-12 text-accent animate-spin" />
+          <p className="text-xl animate-pulse text-white/80">Vũ trụ đang gửi tín hiệu... Vui lòng đợi</p>
         </div>
-        <div className="flex justify-center mt-10">
-          {numerologyStats.slice(12).map((stat, idx) => (
-            <motion.div
-              key={idx}
-              onClick={() => setSelectedStat(stat)}
-              initial={{ opacity: 0, scale: 0.8, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ delay: 12 * 0.05, type: "spring", stiffness: 100 }}
-              className="flex flex-col items-center justify-start gap-3 w-40 cursor-pointer hover:scale-105 transition-transform"
-            >
-              <span className="text-sm font-bold text-white/90 text-center tracking-wide h-10 flex items-end">{stat.label}</span>
-              <div className="w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center border-2 border-dashed border-white/40 p-1">
-                <div className={`w-full h-full rounded-full flex items-center justify-center ${stat.color} shadow-lg`}>
-                  <span className="text-3xl md:text-4xl font-black text-white drop-shadow-sm">
-                    {stat.value}
-                  </span>
-                </div>
+      ) : (
+        !isLoading && data && (
+          <>
+            {/* LƯỚI CÁC CHỈ SỐ */}
+            <div className="pt-8">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-10 justify-items-center max-w-4xl mx-auto">
+                {numerologyStats.slice(0, 12).map((stat, idx) => (
+                  <motion.div
+                    key={idx}
+                    onClick={() => setSelectedStat(stat)}
+                    initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{ delay: idx * 0.05, type: "spring", stiffness: 100 }}
+                    className="flex flex-col items-center justify-start gap-3 w-full cursor-pointer hover:scale-105 transition-transform"
+                  >
+                    <span className="text-sm font-bold text-white/90 text-center tracking-wide h-10 flex items-end">{stat.label}</span>
+                    <div className="w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center border-2 border-dashed border-white/40 p-1">
+                      <div className={`w-full h-full rounded-full flex items-center justify-center ${stat.color} shadow-lg`}>
+                        <span className="text-3xl md:text-4xl font-black text-white drop-shadow-sm">
+                          {stat.value}
+                        </span>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
+              <div className="flex justify-center mt-10">
+                {numerologyStats.slice(12).map((stat, idx) => (
+                  <motion.div
+                    key={idx}
+                    onClick={() => setSelectedStat(stat)}
+                    initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{ delay: 12 * 0.05, type: "spring", stiffness: 100 }}
+                    className="flex flex-col items-center justify-start gap-3 w-40 cursor-pointer hover:scale-105 transition-transform"
+                  >
+                    <span className="text-sm font-bold text-white/90 text-center tracking-wide h-10 flex items-end">{stat.label}</span>
+                    <div className="w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center border-2 border-dashed border-white/40 p-1">
+                      <div className={`w-full h-full rounded-full flex items-center justify-center ${stat.color} shadow-lg`}>
+                        <span className="text-3xl md:text-4xl font-black text-white drop-shadow-sm">
+                          {stat.value}
+                        </span>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* KHU VỰC CÁC BIỂU ĐỒ (VISUAL CHARTS) */}
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="py-8">
+              {data?.pinnacles && renderPyramid(data.pinnacles)}
+              {data?.birthChart && data?.nameChart && (
+                <div className="flex flex-col md:flex-row justify-center gap-12 my-16">
+                  <div className="flex flex-col items-center">
+                    {renderChartGrid(data.birthChart)}
+                    <h4 className="font-semibold text-white/90 mt-6 uppercase tracking-widest text-sm">Biểu đồ ngày sinh</h4>
+                    <CosmicButton className="mt-4 bg-pink-500 hover:bg-pink-600 border-none" onClick={() => scrollTo('reading-charts')}>XEM GIẢI MÃ</CosmicButton>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    {renderChartGrid(data.nameChart)}
+                    <h4 className="font-semibold text-white/90 mt-6 uppercase tracking-widest text-sm">Biểu đồ họ tên</h4>
+                    <CosmicButton className="mt-4 bg-pink-500 hover:bg-pink-600 border-none" onClick={() => scrollTo('reading-charts')}>XEM GIẢI MÃ</CosmicButton>
+                  </div>
+                </div>
+              )}
+              {data?.yearlyCycle && renderYearlyCycle(data.yearlyCycle)}
             </motion.div>
-          ))}
-        </div>
-      </div>
 
-      {/* 2. KHU VỰC CÁC BIỂU ĐỒ (VISUAL CHARTS) */}
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="py-8">
-        
-        {/* Pyramid */}
-        {data?.pinnacles && renderPyramid(data.pinnacles)}
+            {/* KHU VỰC GIẢI MÃ (TEXT READINGS) */}
+            {data?.readings && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8 }}
+                className="space-y-8"
+              >
+                {cleanText(data.readings.overview) && (
+                  <GlassCard className="bg-gradient-to-r from-accent/10 to-purple-500/10 border-accent/30" id="reading-overview">
+                    <div className="flex items-center gap-2 text-accent mb-3">
+                      <Sparkles size={24} />
+                      <h3 className="text-xl font-bold uppercase tracking-wider">Tổng Quan</h3>
+                    </div>
+                    <div className="text-white/80 leading-relaxed text-justify mt-6">
+                      <ReactMarkdown components={markdownComponents}>{cleanText(data.readings.overview)}</ReactMarkdown>
+                    </div>
+                  </GlassCard>
+                )}
 
-        {/* Charts 3x3 */}
-        {data?.birthChart && data?.nameChart && (
-          <div className="flex flex-col md:flex-row justify-center gap-12 my-16">
-            <div className="flex flex-col items-center">
-              {renderChartGrid(data.birthChart)}
-              <h4 className="font-semibold text-white/90 mt-6 uppercase tracking-widest text-sm">Biểu đồ ngày sinh</h4>
-              <CosmicButton className="mt-4 bg-pink-500 hover:bg-pink-600 border-none" onClick={() => scrollTo('reading-charts')}>XEM GIẢI MÃ</CosmicButton>
-            </div>
-            <div className="flex flex-col items-center">
-              {renderChartGrid(data.nameChart)}
-              <h4 className="font-semibold text-white/90 mt-6 uppercase tracking-widest text-sm">Biểu đồ họ tên</h4>
-              <CosmicButton className="mt-4 bg-pink-500 hover:bg-pink-600 border-none" onClick={() => scrollTo('reading-charts')}>XEM GIẢI MÃ</CosmicButton>
-            </div>
-          </div>
-        )}
+                {cleanText(data.readings.pinnacles) && (
+                  <GlassCard className="bg-white/[0.02] border-white/10" id="reading-pinnacles">
+                    <div className="flex items-center gap-2 text-pink-400 mb-3">
+                      <Star size={24} />
+                      <h3 className="text-xl font-bold uppercase tracking-wider">Giải Mã Kim Tự Tháp Đỉnh Cao</h3>
+                    </div>
+                    <div className="text-white/80 leading-relaxed text-justify mt-6">
+                      <ReactMarkdown components={markdownComponents}>{cleanText(data.readings.pinnacles)}</ReactMarkdown>
+                    </div>
+                  </GlassCard>
+                )}
 
-        {/* 9-Year Cycle */}
-        {data?.yearlyCycle && renderYearlyCycle(data.yearlyCycle)}
+                {cleanText(data.readings.charts) && (
+                  <GlassCard className="bg-white/[0.02] border-white/10" id="reading-charts">
+                    <div className="flex items-center gap-2 text-blue-400 mb-3">
+                      <Star size={24} />
+                      <h3 className="text-xl font-bold uppercase tracking-wider">Giải Mã Mũi Tên Sức Mạnh</h3>
+                    </div>
+                    <div className="text-white/80 leading-relaxed text-justify mt-6">
+                      <ReactMarkdown components={markdownComponents}>{cleanText(data.readings.charts)}</ReactMarkdown>
+                    </div>
+                  </GlassCard>
+                )}
 
-      </motion.div>
-
-      {/* 2. KHU VỰC GIẢI MÃ (TEXT READINGS) */}
-      {data?.readings && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-          className="space-y-8"
-        >
-          <GlassCard className="bg-gradient-to-r from-accent/10 to-purple-500/10 border-accent/30" id="reading-overview">
-            <div className="flex items-center gap-2 text-accent mb-3">
-              <Sparkles size={24} />
-              <h3 className="text-xl font-bold uppercase tracking-wider">Tổng Quan</h3>
-            </div>
-            <div className="text-white/80 leading-relaxed text-justify whitespace-pre-wrap mt-6 prose prose-invert max-w-none">
-              {data.readings.overview || 'Đang cập nhật dữ liệu...'}
-            </div>
-          </GlassCard>
-
-          <GlassCard className="bg-white/[0.02] border-white/10" id="reading-pinnacles">
-            <div className="flex items-center gap-2 text-pink-400 mb-3">
-              <Star size={24} />
-              <h3 className="text-xl font-bold uppercase tracking-wider">Giải Mã Kim Tự Tháp Đỉnh Cao</h3>
-            </div>
-            <div className="text-white/80 leading-relaxed text-justify whitespace-pre-wrap mt-6 prose prose-invert max-w-none">
-              {data.readings.pinnacles}
-            </div>
-          </GlassCard>
-
-          <GlassCard className="bg-white/[0.02] border-white/10" id="reading-charts">
-            <div className="flex items-center gap-2 text-blue-400 mb-3">
-              <Star size={24} />
-              <h3 className="text-xl font-bold uppercase tracking-wider">Giải Mã Mũi Tên Sức Mạnh</h3>
-            </div>
-            <div className="text-white/80 leading-relaxed text-justify whitespace-pre-wrap mt-6 prose prose-invert max-w-none">
-              {data.readings.charts}
-            </div>
-          </GlassCard>
-
-          <GlassCard className="bg-white/[0.02] border-white/10" id="reading-yearly">
-            <div className="flex items-center gap-2 text-purple-400 mb-3">
-              <Star size={24} />
-              <h3 className="text-xl font-bold uppercase tracking-wider">Giải Mã Chu Kỳ Cá Nhân</h3>
-            </div>
-            <div className="text-white/80 leading-relaxed text-justify whitespace-pre-wrap mt-6 prose prose-invert max-w-none">
-              {data.readings.yearly}
-            </div>
-          </GlassCard>
-        </motion.div>
+                {cleanText(data.readings.yearly) && (
+                  <GlassCard className="bg-white/[0.02] border-white/10" id="reading-yearly">
+                    <div className="flex items-center gap-2 text-purple-400 mb-3">
+                      <Star size={24} />
+                      <h3 className="text-xl font-bold uppercase tracking-wider">Giải Mã Chu Kỳ Cá Nhân</h3>
+                    </div>
+                    <div className="text-white/80 leading-relaxed text-justify mt-6">
+                      <ReactMarkdown components={markdownComponents}>{cleanText(data.readings.yearly)}</ReactMarkdown>
+                    </div>
+                  </GlassCard>
+                )}
+              </motion.div>
+            )}
+          </>
+        )
       )}
 
-      {/* 3. NÚT TẢI PDF & GỬI EMAIL */}
+      {/* 4. MODAL GIẢI THÍCH CHI TIẾT TỪNG CHỈ SỐ */}
+      <Modal isOpen={!!selectedStat} onClose={() => setSelectedStat(null)}>
+        {selectedStat && (
+          <div className="space-y-4 text-center mt-4">
+            <h3 className="text-2xl font-bold uppercase tracking-wider" style={{ color: selectedStat.color.replace('bg-', '') }}>
+              {selectedStat.label}: {selectedStat.value}
+            </h3>
+            <div className="w-16 h-1 bg-white/30 mx-auto rounded-full" />
+            <p className="text-white/80 leading-relaxed text-lg pt-2 text-justify">
+              {statExplanations[selectedStat.id] || "Đang cập nhật ý nghĩa..."}
+            </p>
+            <CosmicButton onClick={() => setSelectedStat(null)} className="mt-6">
+              Đóng
+            </CosmicButton>
+          </div>
+        )}
+      </Modal>
+
+      {/* 5. NÚT TẢI PDF & GỬI EMAIL */}
       {pdfUrl && (
         <motion.div
           initial={{ opacity: 0 }}
