@@ -4,21 +4,43 @@ useDotenv: true
 provider:
   name: aws
   runtime: nodejs20.x
+  region: us-east-1
+  timeout: 29
   httpApi:
     cors: true
   environment:
     USERS_TABLE: lunagenz-users
-    PDF_BUCKET_NAME: ${env:PDF_BUCKET_NAME}
+    NUMEROLOGY_TABLE: lunagenz-numerology
+    LENORMAND_TABLE: lunagenz-lenormand
     SES_FROM_EMAIL: ${env:SES_FROM_EMAIL}
     SES_TO_EMAIL: ${env:SES_TO_EMAIL}
+    PDF_BUCKET_NAME: ${env:PDF_BUCKET_NAME}
+    GEMINI_API_KEY: ${env:GEMINI_API_KEY, ''}
+    GEMINI_KEY_NUMEROLOGY_1: ${env:GEMINI_KEY_NUMEROLOGY_1, ''}
+    GEMINI_KEY_NUMEROLOGY_2: ${env:GEMINI_KEY_NUMEROLOGY_2, ''}
+    GEMINI_KEY_COMPATIBILITY_1: ${env:GEMINI_KEY_COMPATIBILITY_1, ''}
+    GEMINI_KEY_COMPATIBILITY_2: ${env:GEMINI_KEY_COMPATIBILITY_2, ''}
+    GEMINI_KEY_LENORMAND: ${env:GEMINI_KEY_LENORMAND, ''}
+    GEMINI_MODEL: ${env:GEMINI_MODEL, 'gemini-3.5-flash'}
+    GITHUB_MODEL_API_KEY: ${env:GITHUB_MODEL_API_KEY, ''}
+    OPENROUTER_API_KEY: ${env:OPENROUTER_API_KEY, ''}
+    COHERE_API_KEY: ${env:COHERE_API_KEY, ''}
+    CEREBRAS_API_KEY: ${env:CEREBRAS_API_KEY, ''}
+    GMAIL_USER: ${env:GMAIL_USER}
+    GMAIL_APP_PASSWORD: ${env:GMAIL_APP_PASSWORD}
   iam:
     role:
       statements:
         - Effect: Allow
           Action:
             - dynamodb:PutItem
+            - dynamodb:GetItem
+            - dynamodb:Scan
+            - dynamodb:Query
           Resource:
             - "Fn::GetAtt": [UsersTable, Arn]
+            - "Fn::GetAtt": [NumerologyTable, Arn]
+            - "Fn::GetAtt": [LenormandTable, Arn]
         - Effect: Allow
           Action:
             - s3:PutObject
@@ -28,6 +50,7 @@ provider:
         - Effect: Allow
           Action:
             - ses:SendEmail
+            - ses:SendRawEmail
           Resource: "*"
 
 functions:
@@ -43,11 +66,30 @@ functions:
       - httpApi:
           path: '/api/lenormand'
           method: 'post'
+  aiHandler:
+    handler: handlers/aiHandler.handler
+    events:
+      - httpApi:
+          path: '/api/aiHandler'
+          method: 'post'
 
 plugins:
   - serverless-dotenv-plugin
   - serverless-localstack
   - serverless-offline
+
+package:
+  patterns:
+    - '!node_modules/aws-sdk/**'
+    - '!node_modules/@aws-sdk/**'
+    - '!node_modules/@smithy/**'
+    - '!node_modules/pdf-parse/**'
+    - '!node_modules/pdfjs-dist/**'
+    - '!node_modules/@napi-rs/**'
+    - '!node_modules/serverless-*/**'
+    - '!node_modules/java-invoke-local/**'
+    - '!scripts/**'
+    - '!local-data/**'
 
 custom:
   serverless-offline:
@@ -69,6 +111,28 @@ resources:
             AttributeType: S
         KeySchema:
           - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+    NumerologyTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.NUMEROLOGY_TABLE}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+    LenormandTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.LENORMAND_TABLE}
+        AttributeDefinitions:
+          - AttributeName: card_id
+            AttributeType: N
+        KeySchema:
+          - AttributeName: card_id
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
     PdfBucket:

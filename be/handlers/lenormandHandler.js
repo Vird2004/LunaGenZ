@@ -1,16 +1,5 @@
 const { dynamoDb } = require("../utils/dynamoClient");
-const { PutCommand } = require("@aws-sdk/lib-dynamodb");
-const fs = require('fs');
-const path = require('path');
-
-// Load deck data
-const lenormandDataPath = path.join(__dirname, '../local-data/lenormand.json');
-let lenormandData = [];
-try {
-  lenormandData = JSON.parse(fs.readFileSync(lenormandDataPath, 'utf8'));
-} catch (e) {
-  console.error("Could not load lenormand data", e);
-}
+const { PutCommand, BatchGetCommand } = require("@aws-sdk/lib-dynamodb");
 
 exports.handler = async (event) => {
   try {
@@ -25,23 +14,44 @@ exports.handler = async (event) => {
       };
     }
 
-    if (lenormandData.length === 0) {
-       return {
-         statusCode: 500,
-         headers: { "Access-Control-Allow-Origin": "*" },
-         body: JSON.stringify({ error: "Deck data unavailable" })
-       }
+    let idsToFetch = [];
+    if (cardIds && Array.isArray(cardIds) && cardIds.length === spreadType) {
+      idsToFetch = cardIds;
+    } else {
+      const availableIds = Array.from({ length: 36 }, (_, i) => i + 1);
+      const shuffled = availableIds.sort(() => 0.5 - Math.random());
+      idsToFetch = shuffled.slice(0, spreadType);
     }
 
     let drawnCards = [];
-    if (cardIds && Array.isArray(cardIds) && cardIds.length === spreadType) {
-      drawnCards = cardIds.map(id => lenormandData.find(c => (c.card_id || c.id) === id)).filter(Boolean);
+    if (process.env.LENORMAND_TABLE) {
+      try {
+        const response = await dynamoDb.send(new BatchGetCommand({
+          RequestItems: {
+            [process.env.LENORMAND_TABLE]: {
+              Keys: idsToFetch.map(id => ({ card_id: id }))
+            }
+          }
+        }));
+        const fetchedCards = response.Responses[process.env.LENORMAND_TABLE] || [];
+        drawnCards = idsToFetch.map(id => fetchedCards.find(c => c.card_id === id)).filter(Boolean);
+      } catch (err) {
+        console.error("DynamoDB error fetching lenormand cards:", err);
+      }
+    } else {
+      return {
+        statusCode: 500,
+        headers: { "Access-Control-Allow-Origin": "*" },
+        body: JSON.stringify({ error: "LENORMAND_TABLE environment variable not configured" })
+      };
     }
 
     if (drawnCards.length !== spreadType) {
-      // Draw unique cards if not provided or invalid
-      const shuffled = [...lenormandData].sort(() => 0.5 - Math.random());
-      drawnCards = shuffled.slice(0, spreadType);
+       return {
+         statusCode: 500,
+         headers: { "Access-Control-Allow-Origin": "*" },
+         body: JSON.stringify({ error: "Could not fetch all cards from DynamoDB" })
+       };
     }
 
     // Apply topic logic for center card (if 3 or 5)
@@ -51,10 +61,10 @@ exports.handler = async (event) => {
     if (spreadType === 3 || spreadType === 5) {
       const centerIndex = Math.floor(spreadType / 2);
       centerCard = drawnCards[centerIndex];
-      const cardName = centerCard.name.vi || centerCard.name;
+      const cardName = centerCard.name?.vi || centerCard.name;
       interpretation += ` Lá bài trung tâm là ${cardName}, đóng vai trò chủ chốt cho thông điệp vũ trụ gửi đến bạn.`;
     } else {
-      const cardName = drawnCards[0].name.vi || drawnCards[0].name;
+      const cardName = drawnCards[0].name?.vi || drawnCards[0].name;
       interpretation += ` Lá bài của bạn là ${cardName}.`;
     }
 
@@ -76,7 +86,7 @@ exports.handler = async (event) => {
             type: "LENORMAND",
             topic,
             spreadType,
-            cards: drawnCards.map(c => c.id),
+            cards: drawnCards.map(c => c.card_id || c.id),
             createdAt: new Date().toISOString()
           }
         }));

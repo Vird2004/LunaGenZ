@@ -28,18 +28,6 @@ export default function LenormandPage() {
   const [interpretation, setInterpretation] = useState<string>('');
   const [loadingInterpretation, setLoadingInterpretation] = useState<boolean>(false);
 
-  // Xác định lá kích hoạt dựa trên chủ đề và quy mô trải bài
-  const getTriggerCards = (theme = selectedTheme, count = cardCount): number[] => {
-    if (theme === 'Hàng Ngày' || count === 1) return [];
-    if (theme === 'Tình Cảm') {
-      const gender = userProfile?.gender?.toLowerCase() === 'nam' ? 'nam' : 'nữ';
-      return gender === 'nam' ? [28] : [29];
-    }
-    if (theme === 'Công Việc') {
-      return [14, 34]; // Fox or Fish
-    }
-    return [];
-  };
 
   // HÀM ÚP BÀI VÀ XÀO LẠI (SHUFFLE)
   const resetReading = (theme = selectedTheme, count = cardCount) => {
@@ -50,15 +38,6 @@ export default function LenormandPage() {
     setLocalDeck(newDeck);
     
     const slots = Array(count).fill(null);
-    const triggerCards = getTriggerCards(theme, count);
-    
-    if (triggerCards.length > 0) {
-       const targetTriggerId = triggerCards[Math.floor(Math.random() * triggerCards.length)];
-       const triggerCard = newDeck.find(c => c.id === targetTriggerId);
-       if (triggerCard) {
-          slots[Math.floor(count / 2)] = triggerCard;
-       }
-    }
     setDisplaySlots(slots);
   };
 
@@ -117,20 +96,11 @@ export default function LenormandPage() {
       // Chống bấm 2 lần vào cùng 1 lá
       if (prev.some(c => c?.id === clickedCard.id)) return prev;
 
-      const triggerCards = getTriggerCards();
-      let finalCardToDraw = clickedCard;
-      
-      // Tránh vô tình bốc trúng lá chủ thể nếu nó chưa hiển thị (chỉ đề phòng, vì thực tế nó đã được rút trước)
-      if (triggerCards.includes(clickedCard.id)) {
-        const substitute = localDeck.find(c => !triggerCards.includes(c.id) && !prev.some(d => d?.id === c.id) && c.id !== clickedCard.id);
-        if (substitute) finalCardToDraw = substitute;
-      }
-
       // Tìm khe trống đầu tiên
       const firstEmptyIndex = prev.findIndex(c => c === null);
       if (firstEmptyIndex !== -1) {
         const newSlots = [...prev];
-        newSlots[firstEmptyIndex] = finalCardToDraw;
+        newSlots[firstEmptyIndex] = clickedCard;
         return newSlots;
       }
       return prev;
@@ -190,20 +160,16 @@ export default function LenormandPage() {
             {/* Hiển thị các vị trí lá bài */}
             {displaySlots.map((card, index) => {
               if (card) {
-                const triggerCards = getTriggerCards();
-                const isTrigger = triggerCards.includes(card.id);
-
                 return (
                   <motion.div
                     key={`drawn-${card.id}`}
                     initial={{ opacity: 0, scale: 0.5, rotateY: 180, y: -100 }}
                     animate={{ opacity: 1, scale: 1, rotateY: 0, y: 0 }}
                     transition={{ type: "spring", stiffness: 100, damping: 15 }}
-                    className={`w-40 h-64 sm:w-48 sm:h-72 cursor-pointer group ${isTrigger ? 'z-10' : ''}`}
+                    className={`w-40 h-64 sm:w-48 sm:h-72 cursor-pointer group`}
                     onClick={() => setSelectedCardInfo(card)}
                   >
-                    <GlassCard className={`w-full h-full p-3 sm:p-4 flex flex-col items-center text-center justify-between transition-transform hover:-translate-y-2 relative ${isTrigger ? 'border-accent bg-[#1a1f35]/90 scale-105 shadow-[0_0_20px_rgba(255,215,0,0.2)]' : 'border-white/10 bg-[#1a1f35]/70 hover:border-accent/50'}`}>
-                      {isTrigger && <div className="absolute -top-3 bg-accent text-background text-[10px] font-bold px-3 py-1 rounded-full uppercase">Chủ Thể</div>}
+                    <GlassCard className={`w-full h-full p-3 sm:p-4 flex flex-col items-center text-center justify-between transition-transform hover:-translate-y-2 relative border-white/10 bg-[#1a1f35]/70 hover:border-accent/50`}>
                       <div className="text-xs font-bold text-accent">Lá số {card.id}</div>
                       <div className="flex-1 w-full flex items-center justify-center my-3 bg-white/5 rounded-lg border border-white/10 overflow-hidden relative">
                         <img

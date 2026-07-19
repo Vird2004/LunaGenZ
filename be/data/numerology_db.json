@@ -50,5 +50,16 @@
     "7": "Năm thứ bảy - Năm của sự đúc kết nội tâm: Thời gian tuyệt vời để hướng vào bên trong, học hỏi, phân tích và phát triển tâm linh. Bạn có thể muốn có không gian riêng tĩnh lặng nhiều hơn.",
     "8": "Năm thứ tám - Năm của gặt hái thành tựu: Đây là lúc hái quả ngọt tài chính, sự nghiệp thăng hoa sau quá trình gieo hạt và nỗ lực của 7 năm trước. Năng lượng độc lập và quyền lực vươn cao.",
     "9": "Năm thứ chín - Năm kết thúc chu kỳ: Thời điểm dọn dẹp, buông bỏ những thứ không còn phù hợp (thói quen, mối quan hệ, công việc) để dọn đường cho chu kỳ mới. Đừng vội khởi tạo cái mới trong năm nay."
+  },
+  "isolatedNumbers": {
+    "1": "Số 1 Cô Độc: Bạn có ít nhất một số 1 trong ngày sinh, nhưng lại thiếu vắng hoàn toàn các số 2, 4, 5 xung quanh. Điều này thường khiến bạn cảm thấy không được thấu hiểu, gặp khó khăn trong việc diễn đạt cảm xúc sâu kín nhất của mình, dẫn đến xu hướng thu mình lại hoặc cảm thấy đơn độc dù ở giữa đám đông.",
+    "3": "Số 3 Cô Độc: Số 3 của bạn không có sự kết nối với các số 2, 5, 6. Việc này dẫn đến việc bạn có nhiều ý tưởng sáng tạo, tư duy phong phú nhưng lại khó hiện thực hóa chúng, hoặc khó biểu đạt trí tưởng tượng của mình ra bên ngoài một cách trọn vẹn. Bạn dễ bị phân tâm và mộng mơ quá mức.",
+    "7": "Số 7 Cô Độc: Bạn mang số 7 nhưng lại thiếu 4, 5, 8. Con số 7 đại diện cho bài học qua trải nghiệm, khi bị cô lập, bạn thường phải đối mặt với những bài học khó khăn lặp đi lặp lại vì không rút ra được cốt lõi vấn đề, hoặc có xu hướng cô lập bản thân để né tránh thực tế khắc nghiệt.",
+    "9": "Số 9 Cô Độc: Bạn có số 9 vắng bóng các số 5, 6, 8. Bạn có hoài bão, lý tưởng nhưng đôi khi nó trở nên phi thực tế, xa rời cuộc sống hiện tại. Việc thiếu kết nối khiến bạn dễ rơi vào ảo tưởng, hoặc kỳ vọng quá nhiều vào người khác rồi thất vọng."
+  },
+  "virtualNumbers": {
+    "name_rescue": "Tuyệt vời! Tuy biểu đồ ngày sinh của bạn khuyết thiếu, nhưng Biểu đồ Họ Tên của bạn đã cung cấp những **con số ảo** quan trọng để bù đắp. Sự kết hợp này giúp lấp đầy khoảng trống, tạo ra sự cân bằng đáng kể cho tính cách của bạn.",
+    "missing_5": "Đặc biệt: Khuyết thiếu Số 5 ở trung tâm biểu đồ. Số 5 là cầu nối quan trọng nhất kết nối các con số khác. Bạn cần chủ động rèn luyện **Số 5 Ảo** bằng cách: Học cách bày tỏ cảm xúc nhiều hơn, tự tin giao tiếp, tham gia các hoạt động kết nối cộng đồng, và trau dồi tình yêu thương vô điều kiện.",
+    "general_advice": "Nếu Tên của bạn chưa đủ bù đắp các mũi tên trống hoặc phá vỡ các số cô độc, bạn cần chủ động rèn luyện những đức tính tương ứng để tự tạo ra 'con số ảo' cho chính mình. Sự nhận thức và nỗ lực thay đổi là chìa khóa để hoàn thiện biểu đồ sức mạnh cá nhân."
   }
 }

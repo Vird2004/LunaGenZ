@@ -1,5 +1,5 @@
 const { dynamoDb } = require("../utils/dynamoClient");
-const { PutCommand } = require("@aws-sdk/lib-dynamodb");
+const { PutCommand, ScanCommand } = require("@aws-sdk/lib-dynamodb");
 const { S3Client, PutObjectCommand, GetObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const { SESClient, SendEmailCommand } = require("@aws-sdk/client-ses");
@@ -175,33 +175,144 @@ exports.handler = async (event) => {
     };
 
     // Construct rich reading from JSON Database
-    const dbPath = path.join(__dirname, '../data/numerology_db.json');
     let numerologyDb = { lifePath: {}, arrows: {}, pinnacles: {}, personalYear: {} };
-    if (fs.existsSync(dbPath)) {
-      numerologyDb = JSON.parse(fs.readFileSync(dbPath, 'utf8'));
+    try {
+      // Read local JSON file instead of expensive DynamoDB scan for static mappings
+      const localData = fs.readFileSync(path.join(__dirname, '../data/numerology_db.json'), 'utf8');
+      numerologyDb = JSON.parse(localData);
+    } catch (err) {
+      console.error("Local data read error:", err);
     }
 
+    const combinedChart = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0 };
+    for (let i = 1; i <= 9; i++) {
+      combinedChart[i] = chart[i] + nameChart[i];
+    }
+
+    const hasArrow = (c, a, b, d) => c[a] > 0 && c[b] > 0 && c[d] > 0;
+    const emptyArrow = (c, a, b, d) => c[a] === 0 && c[b] === 0 && c[d] === 0;
+
+    let presentArrowsStr = "";
+    let emptyArrowsStr = "";
+    let virtualRescueStr = "";
+
+    const arrowList = [
+      { keys: [1,5,9], name: "159", emptyName: "empty_159" },
+      { keys: [3,5,7], name: "357", emptyName: "empty_357" },
+      { keys: [2,5,8], name: "258", emptyName: "empty_258" },
+      { keys: [3,6,9], name: "369", emptyName: "empty_369" },
+      { keys: [4,5,6], name: "456", emptyName: "empty_456" },
+      { keys: [7,8,9], name: "789", emptyName: "empty_789" }
+    ];
+
+    arrowList.forEach(arr => {
+      const [a, b, c] = arr.keys;
+      const hasInBirth = hasArrow(chart, a, b, c);
+      const hasInCombined = hasArrow(combinedChart, a, b, c);
+      const emptyInBirth = emptyArrow(chart, a, b, c);
+      const emptyInCombined = emptyArrow(combinedChart, a, b, c);
+
+      // Present arrows
+      if (hasInBirth) {
+        presentArrowsStr += numerologyDb.arrows[arr.name] + "\n\n";
+      } else if (hasInCombined) {
+        presentArrowsStr += `(Nhờ con số ảo từ Tên) ` + numerologyDb.arrows[arr.name] + "\n\n";
+        virtualRescueStr = (numerologyDb.virtualNumbers?.name_rescue || "") + "\n\n";
+      }
+
+      // Empty arrows
+      if (emptyInBirth) {
+        if (!emptyInCombined) {
+          virtualRescueStr += `Mũi tên Trống ${a}-${b}-${c} của bạn đã được bù đắp nhờ các chữ cái trong tên.\n`;
+        } else {
+          emptyArrowsStr += numerologyDb.arrows[arr.emptyName] + "\n\n";
+        }
+      }
+    });
+
+    // Check Isolated Numbers in Birth Chart
+    let isolatedStr = "";
+    let isolatedRescueStr = "";
+    const checkIsolated = (num, neighbors, dbKey) => {
+      if (chart[num] > 0 && neighbors.every(n => chart[n] === 0)) {
+        if (combinedChart[num] > 0 && neighbors.some(n => combinedChart[n] > 0)) {
+          isolatedRescueStr += `Thế cô độc của Số ${num} đã được phá vỡ nhờ các chữ cái trong tên cung cấp thêm năng lượng.\n`;
+        } else {
+          if (numerologyDb.isolatedNumbers) {
+            isolatedStr += numerologyDb.isolatedNumbers[dbKey] + "\n\n";
+          }
+        }
+      }
+    };
+
+    checkIsolated(1, [2, 4, 5], "1");
+    checkIsolated(3, [2, 5, 6], "3");
+    checkIsolated(7, [4, 5, 8], "7");
+    checkIsolated(9, [5, 6, 8], "9");
+
     let arrowsReading = "";
-    const hasArrow = (a, b, c) => chart[a] > 0 && chart[b] > 0 && chart[c] > 0;
-    const emptyArrow = (a, b, c) => chart[a] === 0 && chart[b] === 0 && chart[c] === 0;
+    if (presentArrowsStr) {
+      arrowsReading += "### 🌟 MŨI TÊN HIỆN HỮU\n" + presentArrowsStr;
+    }
+    
+    if (emptyArrowsStr) {
+      arrowsReading += "### ⚠️ MŨI TÊN TRỐNG (CẦN KHẮC PHỤC)\n" + emptyArrowsStr;
+    }
 
-    if (hasArrow(1,5,9)) arrowsReading += numerologyDb.arrows["159"] + "\n\n";
-    if (emptyArrow(1,5,9)) arrowsReading += numerologyDb.arrows["empty_159"] + "\n\n";
-    if (hasArrow(3,5,7)) arrowsReading += numerologyDb.arrows["357"] + "\n\n";
-    if (emptyArrow(3,5,7)) arrowsReading += numerologyDb.arrows["empty_357"] + "\n\n";
-    if (hasArrow(2,5,8)) arrowsReading += numerologyDb.arrows["258"] + "\n\n";
-    if (emptyArrow(2,5,8)) arrowsReading += numerologyDb.arrows["empty_258"] + "\n\n";
-    if (hasArrow(3,6,9)) arrowsReading += numerologyDb.arrows["369"] + "\n\n";
-    if (emptyArrow(3,6,9)) arrowsReading += numerologyDb.arrows["empty_369"] + "\n\n";
-    if (hasArrow(4,5,6)) arrowsReading += numerologyDb.arrows["456"] + "\n\n";
-    if (emptyArrow(4,5,6)) arrowsReading += numerologyDb.arrows["empty_456"] + "\n\n";
-    if (hasArrow(7,8,9)) arrowsReading += numerologyDb.arrows["789"] + "\n\n";
-    if (emptyArrow(7,8,9)) arrowsReading += numerologyDb.arrows["empty_789"] + "\n\n";
-    if (arrowsReading === "") arrowsReading = "Rất tiếc, không có mũi tên nổi bật nào được tạo nên từ biểu đồ ngày sinh của bạn.\n";
+    if (isolatedStr) {
+      arrowsReading += "### 👤 SỐ CÔ ĐỘC\n" + isolatedStr;
+    }
 
-    const lpReading = numerologyDb.lifePath[lifePath.toString()] || "Đang cập nhật...";
-    const pyValue = yearlyCycle.find(y => y.year === new Date().getFullYear())?.value;
-    const pyReading = numerologyDb.personalYear[pyValue?.toString()] || "Đang cập nhật...";
+    if (virtualRescueStr || isolatedRescueStr || combinedChart[5] === 0) {
+      arrowsReading += "### 💡 GIẢI PHÁP & CON SỐ ẢO\n";
+      if (virtualRescueStr) arrowsReading += virtualRescueStr;
+      if (isolatedRescueStr) arrowsReading += isolatedRescueStr + "\n";
+      if (combinedChart[5] === 0 && numerologyDb.virtualNumbers) {
+        arrowsReading += numerologyDb.virtualNumbers["missing_5"] + "\n\n";
+      }
+      if (numerologyDb.virtualNumbers) {
+        arrowsReading += numerologyDb.virtualNumbers["general_advice"] + "\n\n";
+      }
+    }
+
+    if (!arrowsReading) {
+      arrowsReading = "Rất tiếc, không có mũi tên nổi bật nào được tạo nên từ biểu đồ ngày sinh của bạn.\n";
+    }
+
+    const shortTraits = {
+      "1": "sự độc lập, tiên phong và khả năng lãnh đạo",
+      "2": "sự hòa hợp, trực giác nhạy bén và thấu cảm",
+      "3": "sự sáng tạo, năng lượng lạc quan và giao tiếp",
+      "4": "sự thực tế, kỷ luật và khả năng tổ chức",
+      "5": "sự tự do, linh hoạt và yêu thích trải nghiệm",
+      "6": "sự yêu thương, trách nhiệm và chăm sóc gia đình",
+      "7": "sự chiêm nghiệm, trí tuệ và bài học tâm linh",
+      "8": "sự độc lập tài chính, quyền lực và kinh doanh",
+      "9": "sự bao dung, nhân đạo và lý tưởng cống hiến",
+      "10": "sự linh hoạt và dũng khí khởi xướng",
+      "11": "trực giác nhạy bén và nhận thức tâm linh cao",
+      "22": "khả năng kiến tạo và tầm nhìn lớn lao thiết thực"
+    };
+
+    let lpReading = `**Số Chủ Đạo (Life Path): ${lifePath}**\n${numerologyDb.lifePath[lifePath.toString()] || "Đang cập nhật..."}\n\n`;
+    lpReading += `**Số Tâm Hồn (Soul Urge): ${soul}**\nChỉ số tâm hồn cho thấy khát khao ẩn sâu bên trong bạn luôn hướng về ${shortTraits[soul.toString()] || "những giá trị tốt đẹp"}.\n\n`;
+    lpReading += `**Số Tính Cách (Personality): ${personality}**\nThế giới bên ngoài nhìn nhận bạn là một người mang phong thái của ${shortTraits[personality.toString()] || "một cá tính đặc biệt"}.\n\n`;
+    lpReading += `**Số Sứ Mệnh (Destiny): ${destiny}**\nMục đích của bạn trong cuộc đời này là học hỏi và phát huy ${shortTraits[destiny.toString()] || "những bài học quan trọng"}.\n\n`;
+    lpReading += `**Số Thái Độ (Attitude): ${attitude}**\nKhi đối mặt với các tình huống mới, bạn thường phản ứng với ${shortTraits[attitude.toString()] || "một thái độ tự nhiên"}.\n\n`;
+    lpReading += `**Số Trưởng Thành (Maturity): ${maturity}**\nTừ độ tuổi trung niên trở đi, bạn sẽ ngày càng bộc lộ rõ ${shortTraits[maturity.toString()] || "tiềm năng của mình"}.\n\n`;
+    
+    lpReading += `**Chỉ số Cân bằng (Balance): ${balance}**\nKhi gặp căng thẳng, bạn tìm thấy sự bình yên thông qua ${shortTraits[balance.toString()] || "cách tiếp cận cân bằng"}.\n\n`;
+    lpReading += `**Chỉ số Năng lực tự nhiên (Natural Ability): ${naturalAbility}**\nBạn mang trong mình năng khiếu bẩm sinh về ${shortTraits[naturalAbility.toString()] || "những khả năng đặc biệt"}.\n\n`;
+    lpReading += `**Chỉ số Động lực tiếp cận (Approach Motivation): ${approachMotivation}**\nĐiều thôi thúc bạn bắt đầu những thử thách mới liên quan đến ${shortTraits[approachMotivation.toString()] || "động lực bên trong"}.\n\n`;
+    lpReading += `**Chỉ số Năng lực tiếp cận (Approach Ability): ${approachAbility}**\nCách bạn giải quyết bước đầu các vấn đề thể hiện sự ${shortTraits[approachAbility.toString()] || "nhạy bén riêng biệt"}.\n\n`;
+    lpReading += `**Chỉ số Nợ nghiệp (Karmic Debt): ${karmicDebt}**\n${karmicDebt === 0 ? "Bạn không mang bài học nợ nghiệp lớn nào trong kiếp này." : "Bạn có những bài học nghiệp quả cần chú ý và vượt qua."}\n\n`;
+    lpReading += `**Chỉ số Nhân cách (Outer Personality): ${outerPersonality}**\nLớp vỏ bọc giao tiếp ngoài xã hội của bạn mang màu sắc của ${shortTraits[outerPersonality.toString()] || "một người thú vị"}.\n\n`;
+    lpReading += `**Tháng Cá Nhân (Personal Month): ${personalMonth}**\nTháng này năng lượng của bạn tập trung vào ${shortTraits[personalMonth.toString()] || "những biến chuyển hiện tại"}.`;
+
+    let pyReading = "";
+    for (const yearObj of yearlyCycle) {
+      pyReading += `**Năm ${yearObj.year} (Năm cá nhân số ${yearObj.value}):**\n${numerologyDb.personalYear[yearObj.value.toString()] || "Đang cập nhật..."}\n\n`;
+    }
 
     let pinnaclesReading = "";
     pinnacles.forEach((p, idx) => {
@@ -258,6 +369,10 @@ exports.handler = async (event) => {
       return new Promise((resolve, reject) => {
         try {
           const doc = new PDFDocument({ margin: 50 });
+          const fontPath = path.join(__dirname, '../fonts/Tinos-Regular.ttf');
+          if (fs.existsSync(fontPath)) {
+            doc.font(fontPath);
+          }
           const buffers = [];
           doc.on('data', buffers.push.bind(buffers));
           doc.on('end', () => resolve(Buffer.concat(buffers)));
