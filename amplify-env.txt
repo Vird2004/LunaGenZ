@@ -1,0 +1,29 @@
+# ==============================================================================
+# DANH SÁCH BIẾN MÔI TRƯỜNG (ENVIRONMENT VARIABLES) CHO AWS AMPLIFY
+# ==============================================================================
+
+# Hướng dẫn: 
+# 1. Copy từng Key (tên biến) và Value (giá trị) tương ứng để điền vào AWS Amplify Console.
+# 2. Bạn có thể thay đổi các giá trị (Value) bên dưới nếu cấu hình môi trường production có sự khác biệt.
+
+# ------------------------------------------------------------------------------
+# 1. DÀNH CHO FRONTEND (Các biến bắt đầu bằng NEXT_PUBLIC_)
+# ------------------------------------------------------------------------------
+
+Key: NEXT_PUBLIC_API_URL
+Value: https://cbhjsvlkl9.execute-api.us-east-1.amazonaws.com
+
+Key: NEXT_PUBLIC_API_BASE_URL
+Value: https://cbhjsvlkl9.execute-api.us-east-1.amazonaws.com
+
+
+# ------------------------------------------------------------------------------
+# 2. DÀNH CHO BACKEND (API Keys và Cấu hình Model)
+# ------------------------------------------------------------------------------
+
+Key: GEMINI_API_KEY
+Value: YOUR_GEMINI_API_KEY_HERE
+
+Key: GEMINI_MODEL
+Value: gemini-flash-latest
+
