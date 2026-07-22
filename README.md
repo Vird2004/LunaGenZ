@@ -1,11 +1,11 @@
 # First FCAJ Project
 Dự án được thực hiện bởi nhóm FuhoAWS
 Các thành viên bao gồm:
-Nguyễn Quốc Vượng\\
-Cao Bảo Hoàng Nam\\
-Phạm Tạ Mạnh Lân\\
-Trần Mỹ Tâm\\
-Nguyễn Phương Thùy\\
+Nguyễn Quốc Vượng  
+Cao Bảo Hoàng Nam  
+Phạm Tạ Mạnh Lân  
+Trần Mỹ Tâm  
+Nguyễn Phương Thùy  
 
 **Bảng phân công:**
 
